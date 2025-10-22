@@ -1,0 +1,1718 @@
+[
+  {
+    "frame_idx": 0,
+    "steering_angle_rad": -0.05,
+    "steering_angle_deg": -2.8647889756541165,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        18,
+        705,
+        361,
+        687
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:30.982409+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175030.982409Z.raw"
+  },
+  {
+    "frame_idx": 1,
+    "steering_angle_rad": -0.06544984694978735,
+    "steering_angle_deg": -3.7499999999999996,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        16,
+        705,
+        360,
+        689
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:31.048954+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175031.048954Z.raw"
+  },
+  {
+    "frame_idx": 2,
+    "steering_angle_rad": -0.06599526234103559,
+    "steering_angle_deg": -3.78125,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        16,
+        703,
+        359,
+        687
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:31.381810+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175031.381810Z.raw"
+  },
+  {
+    "frame_idx": 3,
+    "steering_angle_rad": -0.06544984694978735,
+    "steering_angle_deg": -3.7499999999999996,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        17,
+        704,
+        360,
+        687
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:31.781205+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175031.781205Z.raw"
+  },
+  {
+    "frame_idx": 4,
+    "steering_angle_rad": -0.06490443155853913,
+    "steering_angle_deg": -3.71875,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        17,
+        705,
+        361,
+        688
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:31.847762+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175031.847762Z.raw"
+  },
+  {
+    "frame_idx": 5,
+    "steering_angle_rad": -0.06599526234103559,
+    "steering_angle_deg": -3.78125,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        16,
+        703,
+        359,
+        687
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:31.914318+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175031.914318Z.raw"
+  },
+  {
+    "frame_idx": 6,
+    "steering_angle_rad": -0.06490443155853913,
+    "steering_angle_deg": -3.71875,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        18,
+        705,
+        361,
+        687
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:31.980871+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175031.980871Z.raw"
+  },
+  {
+    "frame_idx": 7,
+    "steering_angle_rad": -0.06599526234103559,
+    "steering_angle_deg": -3.78125,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        16,
+        703,
+        359,
+        687
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:32.047421+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175032.047421Z.raw"
+  },
+  {
+    "frame_idx": 8,
+    "steering_angle_rad": -0.06490443155853913,
+    "steering_angle_deg": -3.71875,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        18,
+        705,
+        361,
+        687
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:32.113971+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175032.113971Z.raw"
+  },
+  {
+    "frame_idx": 9,
+    "steering_angle_rad": -0.06544984694978735,
+    "steering_angle_deg": -3.7499999999999996,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        18,
+        703,
+        360,
+        685
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:32.180546+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175032.180546Z.raw"
+  },
+  {
+    "frame_idx": 10,
+    "steering_angle_rad": -0.06544984694978735,
+    "steering_angle_deg": -3.7499999999999996,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        18,
+        703,
+        360,
+        685
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:32.247117+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175032.247117Z.raw"
+  },
+  {
+    "frame_idx": 11,
+    "steering_angle_rad": -0.06544984694978735,
+    "steering_angle_deg": -3.7499999999999996,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        18,
+        703,
+        360,
+        685
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:32.313687+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175032.313687Z.raw"
+  },
+  {
+    "frame_idx": 12,
+    "steering_angle_rad": -0.06544984694978735,
+    "steering_angle_deg": -3.7499999999999996,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        16,
+        705,
+        360,
+        689
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:32.446818+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175032.446818Z.raw"
+  },
+  {
+    "frame_idx": 13,
+    "steering_angle_rad": -0.06544984694978735,
+    "steering_angle_deg": -3.7499999999999996,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        16,
+        705,
+        360,
+        689
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:32.646496+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175032.646496Z.raw"
+  },
+  {
+    "frame_idx": 14,
+    "steering_angle_rad": -0.06217735460229799,
+    "steering_angle_deg": -3.5625000000000004,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        33,
+        699,
+        366,
+        666
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:32.713051+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175032.713051Z.raw"
+  },
+  {
+    "frame_idx": 15,
+    "steering_angle_rad": -0.05672320068981571,
+    "steering_angle_deg": -3.25,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        58,
+        694,
+        376,
+        636
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:32.779603+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175032.779603Z.raw"
+  },
+  {
+    "frame_idx": 16,
+    "steering_angle_rad": -0.0409061543436171,
+    "steering_angle_deg": -2.34375,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        112,
+        698,
+        405,
+        586
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:32.846152+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175032.846152Z.raw"
+  },
+  {
+    "frame_idx": 17,
+    "steering_angle_rad": -0.038179077387375956,
+    "steering_angle_deg": -2.1875,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        85,
+        735,
+        410,
+        650
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:32.912699+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175032.912699Z.raw"
+  },
+  {
+    "frame_idx": 18,
+    "steering_angle_rad": -0.03490658503988659,
+    "steering_angle_deg": -2.0,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        56,
+        777,
+        416,
+        721
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:32.979244+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175032.979244Z.raw"
+  },
+  {
+    "frame_idx": 19,
+    "steering_angle_rad": -0.018544123302439753,
+    "steering_angle_deg": -1.0625,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        121,
+        771,
+        446,
+        650
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:33.045785+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175033.045785Z.raw"
+  },
+  {
+    "frame_idx": 20,
+    "steering_angle_rad": -0.0021816615649929115,
+    "steering_angle_deg": -0.12499999999999997,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        150,
+        802,
+        476,
+        652
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:33.112327+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175033.112327Z.raw"
+  },
+  {
+    "frame_idx": 21,
+    "steering_angle_rad": 0.01418080017245393,
+    "steering_angle_deg": 0.8125000000000001,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        176,
+        837,
+        506,
+        661
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:33.245466+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175033.245466Z.raw"
+  },
+  {
+    "frame_idx": 22,
+    "steering_angle_rad": 0.02890701573615608,
+    "steering_angle_deg": 1.65625,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        195,
+        871,
+        533,
+        676
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:33.378596+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175033.378596Z.raw"
+  },
+  {
+    "frame_idx": 23,
+    "steering_angle_rad": 0.03599741582238305,
+    "steering_angle_deg": 2.0625,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        217,
+        876,
+        546,
+        659
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:33.445157+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175033.445157Z.raw"
+  },
+  {
+    "frame_idx": 24,
+    "steering_angle_rad": 0.03763366199612773,
+    "steering_angle_deg": 2.15625,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        219,
+        880,
+        549,
+        661
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:33.511714+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175033.511714Z.raw"
+  },
+  {
+    "frame_idx": 25,
+    "steering_angle_rad": 0.03763366199612773,
+    "steering_angle_deg": 2.15625,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        219,
+        879,
+        549,
+        660
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:33.578270+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175033.578270Z.raw"
+  },
+  {
+    "frame_idx": 26,
+    "steering_angle_rad": 0.037088246604879506,
+    "steering_angle_deg": 2.125,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        225,
+        871,
+        548,
+        646
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:33.644824+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175033.644824Z.raw"
+  },
+  {
+    "frame_idx": 27,
+    "steering_angle_rad": 0.031634092692397225,
+    "steering_angle_deg": 1.8125000000000002,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        214,
+        862,
+        538,
+        648
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:33.777922+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175033.777922Z.raw"
+  },
+  {
+    "frame_idx": 28,
+    "steering_angle_rad": 0.026179938779914945,
+    "steering_angle_deg": 1.5000000000000002,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        208,
+        849,
+        528,
+        641
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:33.844468+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175033.844468Z.raw"
+  },
+  {
+    "frame_idx": 29,
+    "steering_angle_rad": 0.014180800172453928,
+    "steering_angle_deg": 0.8125,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        179,
+        834,
+        506,
+        655
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:33.977551+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175033.977551Z.raw"
+  },
+  {
+    "frame_idx": 30,
+    "steering_angle_rad": 0.004908738521234052,
+    "steering_angle_deg": 0.28125,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        159,
+        820,
+        489,
+        661
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:34.044089+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175034.044089Z.raw"
+  },
+  {
+    "frame_idx": 31,
+    "steering_angle_rad": -0.0016362461737446845,
+    "steering_angle_deg": -0.09375000000000003,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        147,
+        807,
+        477,
+        660
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:34.110626+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175034.110626Z.raw"
+  },
+  {
+    "frame_idx": 32,
+    "steering_angle_rad": -0.011453723216212788,
+    "steering_angle_deg": -0.65625,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        130,
+        789,
+        459,
+        659
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:34.177197+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175034.177197Z.raw"
+  },
+  {
+    "frame_idx": 33,
+    "steering_angle_rad": -0.026179938779914945,
+    "steering_angle_deg": -1.5000000000000002,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        102,
+        762,
+        432,
+        660
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:34.310332+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175034.310332Z.raw"
+  },
+  {
+    "frame_idx": 34,
+    "steering_angle_rad": -0.033270338866141905,
+    "steering_angle_deg": -1.90625,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        82,
+        756,
+        419,
+        674
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:34.376895+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175034.376895Z.raw"
+  },
+  {
+    "frame_idx": 35,
+    "steering_angle_rad": -0.044178646691106466,
+    "steering_angle_deg": -2.53125,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        67,
+        732,
+        399,
+        665
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:34.576570+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175034.576570Z.raw"
+  },
+  {
+    "frame_idx": 36,
+    "steering_angle_rad": -0.04363323129985824,
+    "steering_angle_deg": -2.5,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        67,
+        733,
+        400,
+        666
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:34.643123+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175034.643123Z.raw"
+  },
+  {
+    "frame_idx": 37,
+    "steering_angle_rad": -0.04636030825609938,
+    "steering_angle_deg": -2.65625,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        58,
+        733,
+        395,
+        675
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:34.709673+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175034.709673Z.raw"
+  },
+  {
+    "frame_idx": 38,
+    "steering_angle_rad": -0.03545200043113482,
+    "steering_angle_deg": -2.03125,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        79,
+        751,
+        415,
+        672
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:35.175493+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175035.175493Z.raw"
+  },
+  {
+    "frame_idx": 39,
+    "steering_angle_rad": -0.03763366199612773,
+    "steering_angle_deg": -2.15625,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        64,
+        759,
+        411,
+        695
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:35.242059+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175035.242059Z.raw"
+  },
+  {
+    "frame_idx": 40,
+    "steering_angle_rad": -0.04036073895236887,
+    "steering_angle_deg": -2.3125,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        55,
+        757,
+        406,
+        702
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:35.308622+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175035.308622Z.raw"
+  },
+  {
+    "frame_idx": 41,
+    "steering_angle_rad": -0.04308781590861001,
+    "steering_angle_deg": -2.46875,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        43,
+        760,
+        401,
+        717
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:35.375183+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175035.375183Z.raw"
+  },
+  {
+    "frame_idx": 42,
+    "steering_angle_rad": -0.04363323129985824,
+    "steering_angle_deg": -2.5,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        34,
+        766,
+        400,
+        732
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:35.441741+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175035.441741Z.raw"
+  },
+  {
+    "frame_idx": 43,
+    "steering_angle_rad": -0.04526947747360292,
+    "steering_angle_deg": -2.59375,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        22,
+        772,
+        397,
+        750
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:35.508297+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175035.508297Z.raw"
+  },
+  {
+    "frame_idx": 44,
+    "steering_angle_rad": -0.04526947747360292,
+    "steering_angle_deg": -2.59375,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        0,
+        795,
+        397,
+        795
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:35.774493+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175035.774493Z.raw"
+  },
+  {
+    "frame_idx": 45,
+    "steering_angle_rad": -0.05181446216858166,
+    "steering_angle_deg": -2.96875,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        0,
+        771,
+        385,
+        771
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:36.040648+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175036.040648Z.raw"
+  },
+  {
+    "frame_idx": 46,
+    "steering_angle_rad": -0.05945027764605685,
+    "steering_angle_deg": -3.40625,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        0,
+        742,
+        371,
+        742
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:36.107181+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175036.107181Z.raw"
+  },
+  {
+    "frame_idx": 47,
+    "steering_angle_rad": -0.06654067773228381,
+    "steering_angle_deg": -3.8125,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        0,
+        717,
+        358,
+        717
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:36.173750+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175036.173750Z.raw"
+  },
+  {
+    "frame_idx": 48,
+    "steering_angle_rad": -0.07363107781851078,
+    "steering_angle_deg": -4.21875,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        5,
+        685,
+        345,
+        680
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:36.240316+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175036.240316Z.raw"
+  },
+  {
+    "frame_idx": 49,
+    "steering_angle_rad": -0.07963064712224129,
+    "steering_angle_deg": -4.5625,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        0,
+        669,
+        334,
+        669
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:36.306880+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175036.306880Z.raw"
+  },
+  {
+    "frame_idx": 50,
+    "steering_angle_rad": -0.08508480103472356,
+    "steering_angle_deg": -4.875,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        0,
+        648,
+        324,
+        648
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:36.373441+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175036.373441Z.raw"
+  },
+  {
+    "frame_idx": 51,
+    "steering_angle_rad": -0.08672104720846825,
+    "steering_angle_deg": -4.96875,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        0,
+        643,
+        321,
+        643
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:36.440000+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175036.440000Z.raw"
+  },
+  {
+    "frame_idx": 52,
+    "steering_angle_rad": -0.08617563181722002,
+    "steering_angle_deg": -4.9375,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        0,
+        645,
+        322,
+        645
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:36.506555+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175036.506555Z.raw"
+  },
+  {
+    "frame_idx": 53,
+    "steering_angle_rad": -0.08453938564347534,
+    "steering_angle_deg": -4.84375,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        0,
+        651,
+        325,
+        651
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:36.573109+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175036.573109Z.raw"
+  },
+  {
+    "frame_idx": 54,
+    "steering_angle_rad": -0.08017606251348951,
+    "steering_angle_deg": -4.59375,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        0,
+        666,
+        333,
+        666
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:36.639659+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175036.639659Z.raw"
+  },
+  {
+    "frame_idx": 55,
+    "steering_angle_rad": -0.07690357016600015,
+    "steering_angle_deg": -4.40625,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        6,
+        673,
+        339,
+        667
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:36.706207+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175036.706207Z.raw"
+  },
+  {
+    "frame_idx": 56,
+    "steering_angle_rad": -0.06708609312353205,
+    "steering_angle_deg": -3.8437500000000004,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        15,
+        700,
+        357,
+        685
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:36.772752+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175036.772752Z.raw"
+  },
+  {
+    "frame_idx": 57,
+    "steering_angle_rad": -0.05126904677733343,
+    "steering_angle_deg": -2.9375,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        51,
+        721,
+        386,
+        670
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:36.839295+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175036.839295Z.raw"
+  },
+  {
+    "frame_idx": 58,
+    "steering_angle_rad": -0.04363323129985824,
+    "steering_angle_deg": -2.5,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        81,
+        719,
+        400,
+        638
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:36.905835+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175036.905835Z.raw"
+  },
+  {
+    "frame_idx": 59,
+    "steering_angle_rad": 0.006366768700141766,
+    "steering_angle_deg": 0.36478897565411633,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        153,
+        845,
+        499,
+        692
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:37.172507+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175037.172507Z.raw"
+  },
+  {
+    "frame_idx": 60,
+    "steering_angle_rad": 0.016362461737446838,
+    "steering_angle_deg": 0.9374999999999999,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        157,
+        863,
+        510,
+        706
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:37.239584+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175037.239584Z.raw"
+  },
+  {
+    "frame_idx": 61,
+    "steering_angle_rad": 0.020180369476184436,
+    "steering_angle_deg": 1.15625,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        154,
+        881,
+        517,
+        727
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:37.306672+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175037.306672Z.raw"
+  },
+  {
+    "frame_idx": 62,
+    "steering_angle_rad": 0.022907446432425576,
+    "steering_angle_deg": 1.3125,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        145,
+        899,
+        522,
+        754
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:37.373770+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175037.373770Z.raw"
+  },
+  {
+    "frame_idx": 63,
+    "steering_angle_rad": 0.02672535417116317,
+    "steering_angle_deg": 1.53125,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        138,
+        920,
+        529,
+        782
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:37.440880+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175037.440880Z.raw"
+  },
+  {
+    "frame_idx": 64,
+    "steering_angle_rad": 0.030543261909900768,
+    "steering_angle_deg": 1.75,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        128,
+        944,
+        536,
+        816
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:37.508000+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175037.508000Z.raw"
+  },
+  {
+    "frame_idx": 65,
+    "steering_angle_rad": 0.03436116964863836,
+    "steering_angle_deg": 1.96875,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        127,
+        960,
+        543,
+        833
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:37.575131+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175037.575131Z.raw"
+  },
+  {
+    "frame_idx": 66,
+    "steering_angle_rad": -0.01563883035136164,
+    "steering_angle_deg": -0.8960389756541163,
+    "gaps_found": 2,
+    "gaps": [
+      [
+        111,
+        680,
+        395,
+        569
+      ],
+      [
+        685,
+        960,
+        822,
+        275
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:37.642272+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175037.642272Z.raw"
+  },
+  {
+    "frame_idx": 67,
+    "steering_angle_rad": -0.04908738521234052,
+    "steering_angle_deg": -2.8125,
+    "gaps_found": 2,
+    "gaps": [
+      [
+        92,
+        689,
+        390,
+        597
+      ],
+      [
+        691,
+        960,
+        825,
+        269
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:37.709424+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175037.709424Z.raw"
+  },
+  {
+    "frame_idx": 68,
+    "steering_angle_rad": -0.05290529295107811,
+    "steering_angle_deg": -3.03125,
+    "gaps_found": 2,
+    "gaps": [
+      [
+        72,
+        695,
+        383,
+        623
+      ],
+      [
+        703,
+        960,
+        831,
+        257
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:37.776587+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175037.776587Z.raw"
+  },
+  {
+    "frame_idx": 69,
+    "steering_angle_rad": -0.002905292951078109,
+    "steering_angle_deg": -0.16646102434588358,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        58,
+        960,
+        509,
+        902
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:37.843760+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175037.843760Z.raw"
+  },
+  {
+    "frame_idx": 70,
+    "steering_angle_rad": 0.018544123302439753,
+    "steering_angle_deg": 1.0625,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        69,
+        960,
+        514,
+        891
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:37.910944+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175037.910944Z.raw"
+  },
+  {
+    "frame_idx": 71,
+    "steering_angle_rad": 0.022362031041177347,
+    "steering_angle_deg": 1.28125,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        82,
+        960,
+        521,
+        878
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:37.978139+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175037.978139Z.raw"
+  },
+  {
+    "frame_idx": 72,
+    "steering_angle_rad": -0.010362892433716336,
+    "steering_angle_deg": -0.5937500000000002,
+    "gaps_found": 2,
+    "gaps": [
+      [
+        94,
+        828,
+        461,
+        734
+      ],
+      [
+        844,
+        947,
+        895,
+        103
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:38.112554+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175038.112554Z.raw"
+  },
+  {
+    "frame_idx": 73,
+    "steering_angle_rad": -0.01090830782496456,
+    "steering_angle_deg": -0.625,
+    "gaps_found": 2,
+    "gaps": [
+      [
+        88,
+        832,
+        460,
+        744
+      ],
+      [
+        892,
+        960,
+        926,
+        68
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:38.179212+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175038.179212Z.raw"
+  },
+  {
+    "frame_idx": 74,
+    "steering_angle_rad": -0.03545200043113482,
+    "steering_angle_deg": -2.03125,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        22,
+        809,
+        415,
+        787
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:38.379178+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175038.379178Z.raw"
+  },
+  {
+    "frame_idx": 75,
+    "steering_angle_rad": -0.04526947747360292,
+    "steering_angle_deg": -2.59375,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        0,
+        795,
+        397,
+        795
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:38.445831+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175038.445831Z.raw"
+  },
+  {
+    "frame_idx": 76,
+    "steering_angle_rad": -0.056177785298567484,
+    "steering_angle_deg": -3.21875,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        0,
+        754,
+        377,
+        754
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:38.579134+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175038.579134Z.raw"
+  },
+  {
+    "frame_idx": 77,
+    "steering_angle_rad": -0.05835944686356039,
+    "steering_angle_deg": -3.34375,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        0,
+        747,
+        373,
+        747
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:38.645785+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175038.645785Z.raw"
+  },
+  {
+    "frame_idx": 78,
+    "steering_angle_rad": -0.08781187799096471,
+    "steering_angle_deg": -5.03125,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        0,
+        639,
+        319,
+        639
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:38.779082+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175038.779082Z.raw"
+  },
+  {
+    "frame_idx": 79,
+    "steering_angle_rad": -0.09653852425093636,
+    "steering_angle_deg": -5.53125,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        0,
+        606,
+        303,
+        606
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:38.845729+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175038.845729Z.raw"
+  },
+  {
+    "frame_idx": 80,
+    "steering_angle_rad": -0.10962849364089383,
+    "steering_angle_deg": -6.281250000000001,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        0,
+        558,
+        279,
+        558
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:38.912375+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175038.912375Z.raw"
+  },
+  {
+    "frame_idx": 81,
+    "steering_angle_rad": -0.11562806294462433,
+    "steering_angle_deg": -6.625,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        0,
+        537,
+        268,
+        537
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:38.979020+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175038.979020Z.raw"
+  },
+  {
+    "frame_idx": 82,
+    "steering_angle_rad": -0.12599095537834065,
+    "steering_angle_deg": -7.218749999999999,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        0,
+        498,
+        249,
+        498
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:39.045664+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175039.045664Z.raw"
+  },
+  {
+    "frame_idx": 83,
+    "steering_angle_rad": -0.13689926320330523,
+    "steering_angle_deg": -7.84375,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        0,
+        459,
+        229,
+        459
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:39.112307+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175039.112307Z.raw"
+  },
+  {
+    "frame_idx": 84,
+    "steering_angle_rad": -0.1505346479845109,
+    "steering_angle_deg": -8.625,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        0,
+        408,
+        204,
+        408
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:39.178966+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175039.178966Z.raw"
+  },
+  {
+    "frame_idx": 85,
+    "steering_angle_rad": -0.17507834059068117,
+    "steering_angle_deg": -10.03125,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        0,
+        318,
+        159,
+        318
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:39.245623+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175039.245623Z.raw"
+  },
+  {
+    "frame_idx": 86,
+    "steering_angle_rad": -0.19034997154563157,
+    "steering_angle_deg": -10.90625,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        0,
+        262,
+        131,
+        262
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:39.312279+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175039.312279Z.raw"
+  },
+  {
+    "frame_idx": 87,
+    "steering_angle_rad": -0.20180369476184434,
+    "steering_angle_deg": -11.5625,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        0,
+        220,
+        110,
+        220
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:39.378935+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175039.378935Z.raw"
+  },
+  {
+    "frame_idx": 88,
+    "steering_angle_rad": -0.21271200258680892,
+    "steering_angle_deg": -12.1875,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        0,
+        181,
+        90,
+        181
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:39.445589+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175039.445589Z.raw"
+  },
+  {
+    "frame_idx": 89,
+    "steering_angle_rad": -0.2187115718905394,
+    "steering_angle_deg": -12.53125,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        0,
+        159,
+        79,
+        159
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:39.512242+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175039.512242Z.raw"
+  },
+  {
+    "frame_idx": 90,
+    "steering_angle_rad": -0.21980240267303588,
+    "steering_angle_deg": -12.59375,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        0,
+        154,
+        77,
+        154
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:39.578895+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175039.578895Z.raw"
+  },
+  {
+    "frame_idx": 91,
+    "steering_angle_rad": -0.22143864884678055,
+    "steering_angle_deg": -12.6875,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        0,
+        148,
+        74,
+        148
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:39.645546+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175039.645546Z.raw"
+  },
+  {
+    "frame_idx": 92,
+    "steering_angle_rad": -0.2203478180642841,
+    "steering_angle_deg": -12.625,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        0,
+        153,
+        76,
+        153
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:39.712196+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175039.712196Z.raw"
+  },
+  {
+    "frame_idx": 93,
+    "steering_angle_rad": -0.24216443371421323,
+    "steering_angle_deg": -13.875,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        0,
+        73,
+        36,
+        73
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:39.778845+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175039.778845Z.raw"
+  },
+  {
+    "frame_idx": 94,
+    "steering_angle_rad": -0.23834652597547562,
+    "steering_angle_deg": -13.65625,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        0,
+        86,
+        43,
+        86
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:39.845493+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175039.845493Z.raw"
+  },
+  {
+    "frame_idx": 95,
+    "steering_angle_rad": null,
+    "steering_angle_deg": null,
+    "gaps_found": 0,
+    "gaps": [],
+    "has_solution": false,
+    "timestamp": "2025-10-21T17:50:39.912140+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175039.912140Z.raw"
+  },
+  {
+    "frame_idx": 96,
+    "steering_angle_rad": null,
+    "steering_angle_deg": null,
+    "gaps_found": 0,
+    "gaps": [],
+    "has_solution": false,
+    "timestamp": "2025-10-21T17:50:39.978786+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175039.978786Z.raw"
+  },
+  {
+    "frame_idx": 97,
+    "steering_angle_rad": -0.23398320284548982,
+    "steering_angle_deg": -13.406250000000002,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        0,
+        102,
+        51,
+        102
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:40.045431+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175040.045431Z.raw"
+  },
+  {
+    "frame_idx": 98,
+    "steering_angle_rad": -0.241619018322965,
+    "steering_angle_deg": -13.84375,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        0,
+        75,
+        37,
+        75
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:40.112076+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175040.112076Z.raw"
+  },
+  {
+    "frame_idx": 99,
+    "steering_angle_rad": -0.24107360293171676,
+    "steering_angle_deg": -13.8125,
+    "gaps_found": 1,
+    "gaps": [
+      [
+        0,
+        76,
+        38,
+        76
+      ]
+    ],
+    "has_solution": true,
+    "timestamp": "2025-10-21T17:50:40.178729+00:00",
+    "vision_file": "all_logs\\vision\\vision_3\\image_20251021T175040.178729Z.raw"
+  }
+]

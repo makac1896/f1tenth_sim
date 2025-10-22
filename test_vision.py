@@ -1,55 +1,66 @@
+#!/usr/bin/env python3
 """
-Simple test for edge detection algorithm
+Simple Vision Gap Following Test
+
+Test the vision-based gap following algorithm on a few frames
+to verify it's working correctly before moving on to comparisons.
 """
 
-import sys
-import os
 import cv2
-from pathlib import Path
-
-# Add sim package to Python path  
-sys.path.append(os.path.join(os.path.dirname(__file__), 'sim'))
-
-from sim.algorithms.vision_gap_follow import SimpleVisionGapFollower
+from sim.algorithms.vision_gap_follow import VisionGapFollower
 from raw_to_png_converter import raw_to_png
+from math import degrees
 
-
-def test_edge_detection():
-    """Test edge detection on vision images"""
+def test_vision_algorithm():
+    """Test vision gap following on real data"""
+    print("Vision Gap Following Algorithm Test")
+    print("=" * 40)
     
-    # Initialize
-    vision_follower = SimpleVisionGapFollower()
-    print("Testing Edge Detection")
-    print("=" * 20)
+    # Initialize algorithm
+    vision_follower = VisionGapFollower()
     
-    # Find vision data
-    vision_dirs = ["all_logs/vision/vision_1", "all_logs/vision/vision_2"]
+    # Test files
+    test_files = [
+        "all_logs/vision/vision_1/image_20251021T165247.546201Z.raw",
+        "all_logs/vision/vision_1/image_20251021T165247.679219Z.raw",
+        "all_logs/vision/vision_1/image_20251021T165247.878724Z.raw"
+    ]
     
-    for vision_dir in vision_dirs:
-        if os.path.exists(vision_dir):
-            raw_files = list(Path(vision_dir).glob("image_*.raw"))
-            print(f"Found {len(raw_files)} images in {vision_dir}")
+    for i, image_file in enumerate(test_files):
+        print(f"\n--- Test {i+1}: {image_file.split('/')[-1]} ---")
+        
+        # Convert and load image
+        png_path = raw_to_png(image_file, "temp_vision_test")
+        if not png_path:
+            print(f"❌ Failed to convert {image_file}")
+            continue
             
-            # Process first few images
-            for i, raw_file in enumerate(raw_files[:5]):
-                print(f"Processing {raw_file.name}...")
-                
-                # Convert raw to PNG
-                png_path = raw_to_png(str(raw_file), "temp")
-                if png_path:
-                    # Load image
-                    image = cv2.imread(png_path)
-                    os.remove(png_path)  # cleanup
-                    
-                    # Apply edge detection - save to test folder
-                    output_name = f"edges_{i+1}_{raw_file.stem}.png"
-                    vision_follower.process_image(image, output_name, is_test=True)
-                else:
-                    print(f"  Failed to convert {raw_file}")
-            break
+        image = cv2.imread(png_path)
+        print(f"Image loaded: {image.shape}")
+        
+        # Process with gap following
+        result = vision_follower.process_image(
+            image, 
+            output_filename=f"vision_test_{i+1}.png"
+        )
+        
+        # Show results
+        steering_angle = result['steering_angle']
+        debug = result['debug']
+        
+        if steering_angle is not None:
+            print(f"✅ Steering: {degrees(steering_angle):.1f}°")
+            print(f"   Gaps found: {debug['gaps_found']}")
+            
+            # Show gap details
+            for j, gap in enumerate(debug['gaps']):
+                start_x, end_x, center_x, width = gap
+                print(f"   Gap {j+1}: center={center_x}px, width={width}px")
+        else:
+            print(f"❌ No steering solution found")
+            print(f"   Gaps detected: {debug['gaps_found']}")
     
-    print("Done! Check images/vision/test/ directory")
-
+    print(f"\n✅ Test complete! Visualizations saved to images/vision/")
 
 if __name__ == "__main__":
-    test_edge_detection()
+    test_vision_algorithm()
