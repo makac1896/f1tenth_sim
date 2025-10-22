@@ -41,7 +41,7 @@ class SimpleVisionGapFollower:
         
     def process_image(self, image_array, output_filename, is_test=False):
         """
-        Apply edge detection and save result with ROI border
+        Detect free space/gaps for navigation
         
         Args:
             image_array (np.ndarray): Input image
@@ -58,19 +58,30 @@ class SimpleVisionGapFollower:
         else:
             gray = image_array
         
-        # Apply Canny edge detection
-        edges = cv2.Canny(gray, 50, 150)
+        # Apply threshold to separate free space (bright) from obstacles (dark)
+        # Invert so free space becomes white (255) and obstacles become black (0)
+        _, free_space = cv2.threshold(gray, 80, 255, cv2.THRESH_BINARY)
         
-        # Convert edges to color image so we can draw colored ROI
-        edges_color = cv2.cvtColor(edges, cv2.COLOR_GRAY2BGR)
+        # Apply morphological operations to clean up the free space detection
+        kernel = np.ones((5,5), np.uint8)
+        # Close small gaps in free space
+        free_space = cv2.morphologyEx(free_space, cv2.MORPH_CLOSE, kernel)
+        # Remove small noise
+        free_space = cv2.morphologyEx(free_space, cv2.MORPH_OPEN, kernel)
+        
+        # Convert to color image for visualization
+        free_space_color = cv2.cvtColor(free_space, cv2.COLOR_GRAY2BGR)
+        
+        # Color free space areas in green for better visualization
+        free_space_color[free_space > 0] = [0, 255, 0]  # Green for free space
         
         # Get ROI coordinates and draw rectangle
         height, width = gray.shape
         top, bottom, left, right = self.get_roi_coordinates(height, width)
-        cv2.rectangle(edges_color, (left, top), (right, bottom), (0, 255, 0), 2)
+        cv2.rectangle(free_space_color, (left, top), (right, bottom), (255, 0, 0), 2)  # Blue ROI
         
         # Choose output directory and save
         save_dir = self.test_dir if is_test else self.output_dir
         output_path = os.path.join(save_dir, output_filename)
-        cv2.imwrite(output_path, edges_color)
-        print(f"Edge image with ROI saved: {output_path}")
+        cv2.imwrite(output_path, free_space_color)
+        print(f"Free space image with ROI saved: {output_path}")
