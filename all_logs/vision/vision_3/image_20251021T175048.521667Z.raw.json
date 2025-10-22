@@ -1,0 +1,20 @@
+{
+  "saved_at": "2025-10-21T17:50:48.604532Z",
+  "image_file": "image_20251021T175048.521667Z.raw",
+  "image_timestamp": "20251021T175048.521667Z",
+  "width": 640,
+  "height": 480,
+  "encoding": "rgb8",
+  "is_bigendian": 0,
+  "step": 1920,
+  "drive_log": {
+    "timestamp": "2025-10-21T17:50:48.521667Z",
+    "source": "gap_follow_node",
+    "steering_angle": 0.0021816615649929115,
+    "speed": 1.0,
+    "gap_count": 1,
+    "best_gap_size": 208,
+    "midpoint_angle_deg": 0.25,
+    "distance_m": 2.0369999408721924
+  }
+}
