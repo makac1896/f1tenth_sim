@@ -148,11 +148,12 @@ def find_vision_files(vision_dir):
     return vision_files
 
 
-def test_processing_stages(vision_dir, start_frame=0, num_frames=3):
+def test_processing_stages(vision_dir, start_frame=0, num_frames=3, threshold=80, car_width=0.3, min_gap_pixels=50):
     """Test the vision algorithm and show all processing stages"""
     print("Vision Processing Stages Test")
     print("=" * 50)
     print(f"Vision Directory: {vision_dir}")
+    print(f"Threshold: {threshold}, Car Width: {car_width}, Min Gap: {min_gap_pixels}px")
     
     # Validate vision directory
     if not os.path.exists(vision_dir):
@@ -174,8 +175,12 @@ def test_processing_stages(vision_dir, start_frame=0, num_frames=3):
     
     print(f"Processing frames {start_frame} to {end_frame-1} ({end_frame-start_frame} total)")
     
-    # Initialize algorithm
-    vision_follower = VisionGapFollower()
+    # Initialize algorithm with custom parameters
+    vision_follower = VisionGapFollower(
+        car_width=car_width,
+        free_space_threshold=threshold,
+        min_gap_width_pixels=min_gap_pixels
+    )
     
     for i in range(start_frame, end_frame):
         timestamp = sorted_timestamps[i]
@@ -245,7 +250,14 @@ def main():
     args = parser.parse_args()
     
     # Run test with parameters
-    test_processing_stages(args.vision_dir, args.start, args.frames)
+    test_processing_stages(
+        args.vision_dir, 
+        args.start, 
+        args.frames,
+        args.threshold,
+        args.car_width,
+        args.min_gap_pixels
+    )
 
 
 if __name__ == "__main__":

@@ -2,60 +2,96 @@
 Vision-Based Gap Following Algorithm for F1Tenth Racing
 """
 
-import numpy as np
+import rclpy
+from rclpy.node import Node
+from sensor_msgs.msg import Image, CompressedImage
+from ackermann_msgs.msg import AckermannDriveStamped
+from cv_bridge import CvBridge
 import cv2
-import os
+import numpy as np
 from math import atan2, degrees, radians, pi
 
 
-class VisionGapFollower:
-    """
-    Vision-based gap following algorithm using RGB camera data
-    """
+class VisionGapFollowing(Node):
+    car_width = 0.3
+    free_space_threshold = 120
+    min_gap_width_meters = 0.5
+    min_gap_width_pixels = 50  # fallback when no depth data available
+    smoothing_factor = 0.05
+    min_free_space_ratio = 0.55
+    speed = 1.0  # base speed in m/s
+    max_speed = 1.5
+    min_speed = 0.8
+    camera_fov_deg = 87.0  # RealSense D435i horizontal FOV
     
-    def __init__(self, 
-                 car_width=0.3,
-                 free_space_threshold=120,
-                 min_gap_width_meters=0.5,
-                 min_gap_width_pixels=50,  # fallback when no depth data available
-                 smoothing_factor=0.05,
-                 min_free_space_ratio=0.55):
-        self.car_width = car_width
-        self.free_space_threshold = free_space_threshold
-        self.min_gap_width_meters = min_gap_width_meters
-        self.min_gap_width_pixels = min_gap_width_pixels
-        self.smoothing_factor = smoothing_factor
-        self.min_free_space_ratio = min_free_space_ratio
-        
-        # State tracking
-        self.last_angle = 0.0
-        
-        # Region of Interest parameters (as fraction of image dimensions)
-        self.roi_top_fraction = 0.7     # Start ROI at 70% down from top (road area)
-        self.roi_bottom_fraction = 1.0  # End ROI at 100% down from top
-        self.roi_left_fraction = 0.0     # Full width for gap detection
-        self.roi_right_fraction = 1.0    # Full width for gap detection
+    # State tracking
+    last_angle = 0.0
     
-    def get_roi_coordinates(self, image_height, image_width):
-        top = int(image_height * self.roi_top_fraction)
-        bottom = int(image_height * self.roi_bottom_fraction)
-        left = int(image_width * self.roi_left_fraction)
-        right = int(image_width * self.roi_right_fraction)
-        return top, bottom, left, right
-    
-    def pixels_to_distance(self, pixel_width, depth_m, camera_fov_deg=87.0):
-        if depth_m <= 0:
-            return 0.0
+    # Region of Interest parameters (as fraction of image dimensions)
+    roi_top_fraction = 0.7     # Start ROI at 70% down from top (road area)
+    roi_bottom_fraction = 1.0  # End ROI at 100% down from top
+    roi_left_fraction = 0.0     # Full width for gap detection
+    roi_right_fraction = 1.0    # Full width for gap detection
+
+    def __init__(self):
+        super().__init__('vision_follow_node')
         
-        # pixel_width / image_width = real_width / (2 * depth * tan(fov/2))
-        camera_fov_rad = radians(camera_fov_deg)
-        image_width_pixels = 960
-        fov_width_at_depth = 2.0 * depth_m * np.tan(camera_fov_rad / 2.0)
-        meters_per_pixel = fov_width_at_depth / image_width_pixels
-        real_width_m = pixel_width * meters_per_pixel
+        self.bridge = CvBridge()
+        self.rgb_image = None
+        self.depth_image = None
         
-        return real_width_m
+        self.rgb_subscription = self.create_subscription(
+            Image,
+            '/camera/color/image_raw',
+            self.rgb_callback,
+            10
+        )
         
+        self.depth_subscription = self.create_subscription(
+            Image,
+            '/camera/depth/image_rect_raw', 
+            self.depth_callback,
+            10
+        )
+        
+        self.publisher = self.create_publisher(AckermannDriveStamped, '/drive_raw', 10)
+        
+        self.get_logger().info("VisionGapFollowing node initialized")
+
+    def rgb_callback(self, msg):
+        try:
+            self.rgb_image = self.bridge.imgmsg_to_cv2(msg, "bgr8")
+            self.process_vision_data()
+        except Exception as e:
+            self.get_logger().error(f"RGB conversion failed: {e}")
+
+    def depth_callback(self, msg):
+        try:
+            depth_raw = self.bridge.imgmsg_to_cv2(msg, "16UC1")
+            self.depth_image = depth_raw.astype(np.float32) / 1000.0  # mm to meters
+        except Exception as e:
+            self.get_logger().error(f"Depth conversion failed: {e}")
+
+    def process_vision_data(self):
+        if self.rgb_image is None:
+            return
+            
+        result = self.process_image(self.rgb_image, self.depth_image)
+        steering_angle = result['steering_angle']
+        
+        if steering_angle is not None:
+            self.vehicle_control(steering_angle)
+            debug = result['debug']
+            self.get_logger().info(
+                f"Steering: {degrees(steering_angle):.2f}°, Gaps: {debug['gaps_found']}, "
+                f"Raw: {degrees(debug['steering_angle_raw']):.2f}°, "
+                f"Depth: {debug['depth_available']}, "
+                f"Best gap: {debug['gaps'][0] if debug['gaps'] else 'None'}"
+            )
+        else:
+            self.vehicle_control(0.0, emergency=True)
+            self.get_logger().warn("No valid gap found - emergency stop")
+
     def process_image(self, image_array, depth_image=None):
         if image_array is None:
             return {'steering_angle': None, 'debug': {}}
@@ -106,6 +142,26 @@ class VisionGapFollower:
             'steering_angle': smoothed_angle,
             'debug': debug_info
         }
+
+    def get_roi_coordinates(self, image_height, image_width):
+        top = int(image_height * self.roi_top_fraction)
+        bottom = int(image_height * self.roi_bottom_fraction)
+        left = int(image_width * self.roi_left_fraction)
+        right = int(image_width * self.roi_right_fraction)
+        return top, bottom, left, right
+    
+    def pixels_to_distance(self, pixel_width, depth_m, camera_fov_deg=87.0):
+        if depth_m <= 0:
+            return 0.0
+        
+        # pixel_width / image_width = real_width / (2 * depth * tan(fov/2))
+        camera_fov_rad = radians(camera_fov_deg)
+        image_width_pixels = 960
+        fov_width_at_depth = 2.0 * depth_m * np.tan(camera_fov_rad / 2.0)
+        meters_per_pixel = fov_width_at_depth / image_width_pixels
+        real_width_m = pixel_width * meters_per_pixel
+        
+        return real_width_m
     
     def detect_free_space(self, image_array):
         if len(image_array.shape) == 3:
@@ -226,7 +282,7 @@ class VisionGapFollower:
             'gaps': gaps,
             'debug_data': gap_debug_data
         }
-    
+
     # debug function
     def _create_column_debug_visualization(self, free_space_mask, column_navigable, 
                                          column_ratios, top, bottom, left, right):
@@ -346,5 +402,64 @@ class VisionGapFollower:
         
         self.last_angle = smoothed_angle
         return smoothed_angle
-    
 
+    def vehicle_control(self, steering_angle, emergency=False):
+        max_angle = 0.4189  # ~24 degrees max steering
+        
+        if emergency:
+            final_steering = 0.0
+            final_speed = 0.0
+        else:
+            final_steering = max(min(steering_angle, max_angle), -max_angle)
+            
+            # Speed control: slow down for sharp turns
+            angle_factor = max(0.5, 1.0 - abs(final_steering) / max_angle)
+            
+            forward_clearance = self.get_forward_clearance()
+            distance_factor = min(1.5, forward_clearance / 2.0) if forward_clearance else 1.0
+            
+            dynamic_speed = self.speed * angle_factor * distance_factor
+            final_speed = max(self.min_speed, min(dynamic_speed, self.max_speed))
+        
+        drive_msg = AckermannDriveStamped()
+        drive_msg.drive.steering_angle = final_steering
+        drive_msg.drive.speed = final_speed
+        self.publisher.publish(drive_msg)
+        
+        self.get_logger().info(
+            f"Control → Steering: {degrees(final_steering):.2f}°, Speed: {final_speed:.2f} m/s"
+        )
+
+    def get_forward_clearance(self):
+        if self.depth_image is None:
+            return 2.0  # default safe distance
+            
+        height, width = self.depth_image.shape
+        center_y = int(height * 0.8)  # look ahead on road
+        center_x = width // 2
+        window_size = 20  # pixels around center
+        
+        y_start = max(0, center_y - window_size // 2)
+        y_end = min(height, center_y + window_size // 2)
+        x_start = max(0, center_x - window_size)
+        x_end = min(width, center_x + window_size)
+        
+        forward_region = self.depth_image[y_start:y_end, x_start:x_end]
+        valid_depths = forward_region[(forward_region > 0.1) & (forward_region < 10.0)]
+        
+        if len(valid_depths) > 0:
+            return float(np.percentile(valid_depths, 10))  # 10th percentile for safety
+        else:
+            return 2.0  # default
+
+
+def main(args=None):
+    rclpy.init(args=args)
+    vision_gap_following = VisionGapFollowing()
+    rclpy.spin(vision_gap_following)
+    vision_gap_following.destroy_node()
+    rclpy.shutdown()
+
+
+if __name__ == '__main__':
+    main()
