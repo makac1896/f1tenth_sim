@@ -76,6 +76,7 @@ images/
 # Project specific - Temporary files
 temp_raw_image.raw
 converted/
+videos/
 
 # Logs
 *.log
