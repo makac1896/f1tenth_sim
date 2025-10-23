@@ -18,7 +18,7 @@ from pathlib import Path
 # Add sim package to Python path
 sys.path.append(os.path.join(os.path.dirname(__file__), 'sim'))
 
-from sim.algorithms.vision_gap_follow import SimpleVisionGapFollower
+from sim.algorithms.vision_gap_follow import VisionGapFollower
 from raw_to_png_converter import raw_to_png
 import cv2
 import glob
@@ -196,7 +196,7 @@ def main():
     clean_old_images(output_dir)
     
     # Initialize vision processor
-    vision_processor = SimpleVisionGapFollower()
+    vision_processor = VisionGapFollower()
     
     # Process frames
     print("\nProcessing vision frames...")

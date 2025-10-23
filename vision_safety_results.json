@@ -3,18 +3,18 @@
     "frame_idx": 0,
     "timestamp": "20251021T165247.546201Z",
     "is_safe": true,
-    "reason": "RGB-only: Sufficient free space: 88.6% >= 40.0%",
+    "reason": "RGB-only: Sufficient free space: 100.0% >= 40.0%",
     "action": "continue",
     "safety_analysis": {
       "rgb_analysis": {
-        "free_space_percentage": 0.8861111111111111,
+        "free_space_percentage": 1.0,
         "required_free_space": 0.4,
-        "center_free_percentage": 0.9957465277777777,
+        "center_free_percentage": 1.0,
         "has_forward_path": true,
-        "total_roi_pixels": 138240,
-        "free_space_pixels": 122496,
+        "total_roi_pixels": 55296,
+        "free_space_pixels": 55296,
         "is_safe": true,
-        "reason": "Sufficient free space: 88.6% >= 40.0%"
+        "reason": "Sufficient free space: 100.0% >= 40.0%"
       },
       "depth_check": {
         "status": "missing",
@@ -22,7 +22,7 @@
       },
       "final_decision": {
         "is_safe": true,
-        "reason": "RGB-only: Sufficient free space: 88.6% >= 40.0%",
+        "reason": "RGB-only: Sufficient free space: 100.0% >= 40.0%",
         "method": "rgb_only"
       }
     }
@@ -31,18 +31,18 @@
     "frame_idx": 1,
     "timestamp": "20251021T165247.679219Z",
     "is_safe": true,
-    "reason": "RGB-only: Sufficient free space: 88.6% >= 40.0%",
+    "reason": "RGB-only: Sufficient free space: 100.0% >= 40.0%",
     "action": "continue",
     "safety_analysis": {
       "rgb_analysis": {
-        "free_space_percentage": 0.8861762152777778,
+        "free_space_percentage": 1.0,
         "required_free_space": 0.4,
-        "center_free_percentage": 0.9957899305555555,
+        "center_free_percentage": 1.0,
         "has_forward_path": true,
-        "total_roi_pixels": 138240,
-        "free_space_pixels": 122505,
+        "total_roi_pixels": 55296,
+        "free_space_pixels": 55296,
         "is_safe": true,
-        "reason": "Sufficient free space: 88.6% >= 40.0%"
+        "reason": "Sufficient free space: 100.0% >= 40.0%"
       },
       "depth_check": {
         "status": "missing",
@@ -50,7 +50,7 @@
       },
       "final_decision": {
         "is_safe": true,
-        "reason": "RGB-only: Sufficient free space: 88.6% >= 40.0%",
+        "reason": "RGB-only: Sufficient free space: 100.0% >= 40.0%",
         "method": "rgb_only"
       }
     }
@@ -59,18 +59,18 @@
     "frame_idx": 2,
     "timestamp": "20251021T165247.878724Z",
     "is_safe": true,
-    "reason": "RGB-only: Sufficient free space: 88.6% >= 40.0%",
+    "reason": "RGB-only: Sufficient free space: 100.0% >= 40.0%",
     "action": "continue",
     "safety_analysis": {
       "rgb_analysis": {
-        "free_space_percentage": 0.8860604745370371,
+        "free_space_percentage": 1.0,
         "required_free_space": 0.4,
-        "center_free_percentage": 0.9957465277777777,
+        "center_free_percentage": 1.0,
         "has_forward_path": true,
-        "total_roi_pixels": 138240,
-        "free_space_pixels": 122489,
+        "total_roi_pixels": 55296,
+        "free_space_pixels": 55296,
         "is_safe": true,
-        "reason": "Sufficient free space: 88.6% >= 40.0%"
+        "reason": "Sufficient free space: 100.0% >= 40.0%"
       },
       "depth_check": {
         "status": "missing",
@@ -78,7 +78,7 @@
       },
       "final_decision": {
         "is_safe": true,
-        "reason": "RGB-only: Sufficient free space: 88.6% >= 40.0%",
+        "reason": "RGB-only: Sufficient free space: 100.0% >= 40.0%",
         "method": "rgb_only"
       }
     }
@@ -87,18 +87,18 @@
     "frame_idx": 3,
     "timestamp": "20251021T165247.945221Z",
     "is_safe": true,
-    "reason": "RGB-only: Sufficient free space: 88.6% >= 40.0%",
+    "reason": "RGB-only: Sufficient free space: 100.0% >= 40.0%",
     "action": "continue",
     "safety_analysis": {
       "rgb_analysis": {
-        "free_space_percentage": 0.8859375,
+        "free_space_percentage": 1.0,
         "required_free_space": 0.4,
-        "center_free_percentage": 0.9958043981481481,
+        "center_free_percentage": 1.0,
         "has_forward_path": true,
-        "total_roi_pixels": 138240,
-        "free_space_pixels": 122472,
+        "total_roi_pixels": 55296,
+        "free_space_pixels": 55296,
         "is_safe": true,
-        "reason": "Sufficient free space: 88.6% >= 40.0%"
+        "reason": "Sufficient free space: 100.0% >= 40.0%"
       },
       "depth_check": {
         "status": "missing",
@@ -106,7 +106,7 @@
       },
       "final_decision": {
         "is_safe": true,
-        "reason": "RGB-only: Sufficient free space: 88.6% >= 40.0%",
+        "reason": "RGB-only: Sufficient free space: 100.0% >= 40.0%",
         "method": "rgb_only"
       }
     }
@@ -115,18 +115,18 @@
     "frame_idx": 4,
     "timestamp": "20251021T165248.410913Z",
     "is_safe": true,
-    "reason": "RGB-only: Sufficient free space: 88.6% >= 40.0%",
+    "reason": "RGB-only: Sufficient free space: 100.0% >= 40.0%",
     "action": "continue",
     "safety_analysis": {
       "rgb_analysis": {
-        "free_space_percentage": 0.8860749421296297,
+        "free_space_percentage": 1.0,
         "required_free_space": 0.4,
-        "center_free_percentage": 0.9957175925925926,
+        "center_free_percentage": 1.0,
         "has_forward_path": true,
-        "total_roi_pixels": 138240,
-        "free_space_pixels": 122491,
+        "total_roi_pixels": 55296,
+        "free_space_pixels": 55296,
         "is_safe": true,
-        "reason": "Sufficient free space: 88.6% >= 40.0%"
+        "reason": "Sufficient free space: 100.0% >= 40.0%"
       },
       "depth_check": {
         "status": "missing",
@@ -134,7 +134,7 @@
       },
       "final_decision": {
         "is_safe": true,
-        "reason": "RGB-only: Sufficient free space: 88.6% >= 40.0%",
+        "reason": "RGB-only: Sufficient free space: 100.0% >= 40.0%",
         "method": "rgb_only"
       }
     }
@@ -143,18 +143,18 @@
     "frame_idx": 5,
     "timestamp": "20251021T165248.477428Z",
     "is_safe": true,
-    "reason": "RGB-only: Sufficient free space: 88.6% >= 40.0%",
+    "reason": "RGB-only: Sufficient free space: 100.0% >= 40.0%",
     "action": "continue",
     "safety_analysis": {
       "rgb_analysis": {
-        "free_space_percentage": 0.8860460069444445,
+        "free_space_percentage": 1.0,
         "required_free_space": 0.4,
-        "center_free_percentage": 0.9957175925925926,
+        "center_free_percentage": 1.0,
         "has_forward_path": true,
-        "total_roi_pixels": 138240,
-        "free_space_pixels": 122487,
+        "total_roi_pixels": 55296,
+        "free_space_pixels": 55296,
         "is_safe": true,
-        "reason": "Sufficient free space: 88.6% >= 40.0%"
+        "reason": "Sufficient free space: 100.0% >= 40.0%"
       },
       "depth_check": {
         "status": "missing",
@@ -162,7 +162,7 @@
       },
       "final_decision": {
         "is_safe": true,
-        "reason": "RGB-only: Sufficient free space: 88.6% >= 40.0%",
+        "reason": "RGB-only: Sufficient free space: 100.0% >= 40.0%",
         "method": "rgb_only"
       }
     }
@@ -171,18 +171,18 @@
     "frame_idx": 6,
     "timestamp": "20251021T165248.543940Z",
     "is_safe": true,
-    "reason": "RGB-only: Sufficient free space: 88.6% >= 40.0%",
+    "reason": "RGB-only: Sufficient free space: 100.0% >= 40.0%",
     "action": "continue",
     "safety_analysis": {
       "rgb_analysis": {
-        "free_space_percentage": 0.8860026041666667,
+        "free_space_percentage": 1.0,
         "required_free_space": 0.4,
-        "center_free_percentage": 0.9957465277777777,
+        "center_free_percentage": 1.0,
         "has_forward_path": true,
-        "total_roi_pixels": 138240,
-        "free_space_pixels": 122481,
+        "total_roi_pixels": 55296,
+        "free_space_pixels": 55296,
         "is_safe": true,
-        "reason": "Sufficient free space: 88.6% >= 40.0%"
+        "reason": "Sufficient free space: 100.0% >= 40.0%"
       },
       "depth_check": {
         "status": "missing",
@@ -190,7 +190,7 @@
       },
       "final_decision": {
         "is_safe": true,
-        "reason": "RGB-only: Sufficient free space: 88.6% >= 40.0%",
+        "reason": "RGB-only: Sufficient free space: 100.0% >= 40.0%",
         "method": "rgb_only"
       }
     }
@@ -199,18 +199,18 @@
     "frame_idx": 7,
     "timestamp": "20251021T165248.876451Z",
     "is_safe": true,
-    "reason": "RGB-only: Sufficient free space: 88.6% >= 40.0%",
+    "reason": "RGB-only: Sufficient free space: 100.0% >= 40.0%",
     "action": "continue",
     "safety_analysis": {
       "rgb_analysis": {
-        "free_space_percentage": 0.8860026041666667,
+        "free_space_percentage": 1.0,
         "required_free_space": 0.4,
-        "center_free_percentage": 0.995703125,
+        "center_free_percentage": 1.0,
         "has_forward_path": true,
-        "total_roi_pixels": 138240,
-        "free_space_pixels": 122481,
+        "total_roi_pixels": 55296,
+        "free_space_pixels": 55296,
         "is_safe": true,
-        "reason": "Sufficient free space: 88.6% >= 40.0%"
+        "reason": "Sufficient free space: 100.0% >= 40.0%"
       },
       "depth_check": {
         "status": "missing",
@@ -218,7 +218,7 @@
       },
       "final_decision": {
         "is_safe": true,
-        "reason": "RGB-only: Sufficient free space: 88.6% >= 40.0%",
+        "reason": "RGB-only: Sufficient free space: 100.0% >= 40.0%",
         "method": "rgb_only"
       }
     }
@@ -227,18 +227,18 @@
     "frame_idx": 8,
     "timestamp": "20251021T165248.942946Z",
     "is_safe": true,
-    "reason": "RGB-only: Sufficient free space: 88.6% >= 40.0%",
+    "reason": "RGB-only: Sufficient free space: 100.0% >= 40.0%",
     "action": "continue",
     "safety_analysis": {
       "rgb_analysis": {
-        "free_space_percentage": 0.885988136574074,
+        "free_space_percentage": 1.0,
         "required_free_space": 0.4,
-        "center_free_percentage": 0.9956741898148148,
+        "center_free_percentage": 1.0,
         "has_forward_path": true,
-        "total_roi_pixels": 138240,
-        "free_space_pixels": 122479,
+        "total_roi_pixels": 55296,
+        "free_space_pixels": 55296,
         "is_safe": true,
-        "reason": "Sufficient free space: 88.6% >= 40.0%"
+        "reason": "Sufficient free space: 100.0% >= 40.0%"
       },
       "depth_check": {
         "status": "missing",
@@ -246,7 +246,7 @@
       },
       "final_decision": {
         "is_safe": true,
-        "reason": "RGB-only: Sufficient free space: 88.6% >= 40.0%",
+        "reason": "RGB-only: Sufficient free space: 100.0% >= 40.0%",
         "method": "rgb_only"
       }
     }
@@ -255,18 +255,18 @@
     "frame_idx": 9,
     "timestamp": "20251021T165249.275580Z",
     "is_safe": true,
-    "reason": "RGB-only: Sufficient free space: 88.6% >= 40.0%",
+    "reason": "RGB-only: Sufficient free space: 100.0% >= 40.0%",
     "action": "continue",
     "safety_analysis": {
       "rgb_analysis": {
-        "free_space_percentage": 0.8859592013888888,
+        "free_space_percentage": 1.0,
         "required_free_space": 0.4,
-        "center_free_percentage": 0.9957320601851852,
+        "center_free_percentage": 1.0,
         "has_forward_path": true,
-        "total_roi_pixels": 138240,
-        "free_space_pixels": 122475,
+        "total_roi_pixels": 55296,
+        "free_space_pixels": 55296,
         "is_safe": true,
-        "reason": "Sufficient free space: 88.6% >= 40.0%"
+        "reason": "Sufficient free space: 100.0% >= 40.0%"
       },
       "depth_check": {
         "status": "missing",
@@ -274,7 +274,7 @@
       },
       "final_decision": {
         "is_safe": true,
-        "reason": "RGB-only: Sufficient free space: 88.6% >= 40.0%",
+        "reason": "RGB-only: Sufficient free space: 100.0% >= 40.0%",
         "method": "rgb_only"
       }
     }

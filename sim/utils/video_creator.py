@@ -21,17 +21,57 @@ class VisionVideoCreator:
         self.output_dir = output_dir
         os.makedirs(self.output_dir, exist_ok=True)
     
-    def get_sorted_images(self, image_dir, pattern="edges_frame_*.png"):
+    def get_sorted_images(self, image_dir, pattern=None):
         """Get sorted list of image files"""
-        image_pattern = os.path.join(image_dir, pattern)
-        image_files = glob.glob(image_pattern)
+        if pattern is None:
+            # Try multiple common patterns
+            patterns = [
+                "vision_frame_*.png",     # Vision gap analysis
+                "edges_frame_*.png",      # Vision stages
+                "frame_*.png",            # General frame pattern
+                "vision_*.png",           # Vision analysis
+                "gap_*.png",              # Gap analysis
+                "*.png",                  # All PNG files
+                "*.jpg"                   # All JPG files
+            ]
+            
+            image_files = []
+            for pat in patterns:
+                image_pattern = os.path.join(image_dir, pat)
+                files = glob.glob(image_pattern)
+                if files:
+                    image_files.extend(files)
+                    break  # Use first pattern that finds files
+        else:
+            image_pattern = os.path.join(image_dir, pattern)
+            image_files = glob.glob(image_pattern)
         
-        # Sort by frame number extracted from filename
-        def extract_frame_number(filename):
-            match = re.search(r'frame_(\d+)_', filename)
-            return int(match.group(1)) if match else 0
+        if not image_files:
+            return []
         
-        image_files.sort(key=extract_frame_number)
+        # Sort by frame number or timestamp extracted from filename
+        def extract_sort_key(filename):
+            basename = os.path.basename(filename)
+            
+            # Try to extract frame number
+            frame_match = re.search(r'frame_(\d+)', basename)
+            if frame_match:
+                return int(frame_match.group(1))
+            
+            # Try to extract timestamp
+            timestamp_match = re.search(r'(\d{8}T\d{6})', basename)
+            if timestamp_match:
+                return timestamp_match.group(1)
+            
+            # Try to extract any number sequence
+            number_match = re.search(r'(\d+)', basename)
+            if number_match:
+                return int(number_match.group(1))
+            
+            # Fallback to filename
+            return basename
+        
+        image_files.sort(key=extract_sort_key)
         return image_files
     
     def create_video(self, image_dir, output_filename, fps=10, codec='mp4v'):

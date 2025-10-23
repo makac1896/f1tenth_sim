@@ -298,5 +298,93 @@ class ImageProcessor:
         
         print(f"Successfully processed {processed_count}/{total_frames} frames")
         print(f"Images saved to: {self.output_dir}")
+
+
+class VisionGapVisualizer:
+    """
+    Visualization utilities for vision-based gap following algorithm
+    """
+    
+    def __init__(self, output_dir="images/vision"):
+        """
+        Initialize visualizer
+        
+        Args:
+            output_dir (str): Directory to save visualization images
+        """
+        self.output_dir = output_dir
+        os.makedirs(output_dir, exist_ok=True)
+    
+    def visualize_gaps(self, original_image, vision_result, output_filename):
+        """
+        Create visualization of vision gap detection results
+        
+        Args:
+            original_image (np.ndarray): Original RGB image
+            vision_result (dict): Result from VisionGapFollower.process_image()
+            output_filename (str): Name for output file
+            
+        Returns:
+            str: Path to saved visualization image
+        """
+        vis_image = original_image.copy()
+        height, width = vis_image.shape[:2]
+        
+        debug_info = vision_result['debug']
+        gaps = debug_info['gaps']
+        steering_angle = vision_result['steering_angle']
+        
+        # Get ROI coordinates (assuming same logic as algorithm)
+        roi_top_fraction = 0.7
+        roi_bottom_fraction = 1.0
+        top = int(height * roi_top_fraction)
+        bottom = int(height * roi_bottom_fraction)
+        left = 0
+        right = width
+        
+        # Draw ROI rectangle
+        cv2.rectangle(vis_image, (left, top), (right, bottom), (255, 0, 0), 2)  # Blue ROI
+        
+        # Draw gap boundaries and centers
+        for i, (start_x, end_x, center_x, gap_width) in enumerate(gaps):
+            # Draw gap boundaries as vertical lines
+            cv2.line(vis_image, (start_x, top), (start_x, bottom), (0, 255, 255), 2)  # Yellow start
+            cv2.line(vis_image, (end_x, top), (end_x, bottom), (0, 255, 255), 2)    # Yellow end
+            
+            # Draw gap center
+            cv2.line(vis_image, (center_x, top), (center_x, bottom), (0, 255, 0), 2)  # Green center
+        
+        # Add text information at top of screen
+        y_offset = 30
+        line_height = 25
+        
+        # Add steering angle
+        if steering_angle is not None:
+            angle_deg = degrees(steering_angle)
+            cv2.putText(vis_image, f'Steering: {angle_deg:.1f}°', 
+                       (10, y_offset), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
+            y_offset += line_height
+        else:
+            cv2.putText(vis_image, 'Steering: NO SOLUTION', 
+                       (10, y_offset), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
+            y_offset += line_height
+        
+        # Add gap count
+        cv2.putText(vis_image, f'Gaps: {len(gaps)}', 
+                   (10, y_offset), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
+        y_offset += line_height
+        
+        # Add gap details
+        for i, (start_x, end_x, center_x, gap_width) in enumerate(gaps):
+            gap_text = f'Gap{i+1}: center={center_x}px, width={gap_width}px'
+            cv2.putText(vis_image, gap_text, 
+                       (10, y_offset), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
+            y_offset += line_height
+        
+        # Save visualization
+        output_path = os.path.join(self.output_dir, output_filename)
+        cv2.imwrite(output_path, vis_image)
+        
+        return output_path
         
         return processed_count

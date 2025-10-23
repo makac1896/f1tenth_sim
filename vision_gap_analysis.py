@@ -20,6 +20,7 @@ from pathlib import Path
 from math import degrees
 
 from sim.algorithms.vision_gap_follow import VisionGapFollower
+from sim.utils.image_processing import VisionGapVisualizer
 from raw_to_png_converter import raw_to_png
 
 
@@ -77,7 +78,7 @@ def filter_by_timeframe(vision_files, start_time=None, end_time=None):
     return filtered_files
 
 
-def analyze_vision_frame(vision_file, vision_follower, frame_idx):
+def analyze_vision_frame(vision_file, vision_follower, visualizer, frame_idx, save_viz=False):
     """Analyze a single vision frame"""
     try:
         # Convert raw image to PNG
@@ -91,10 +92,11 @@ def analyze_vision_frame(vision_file, vision_follower, frame_idx):
             return None
         
         # Process with gap following algorithm
-        result = vision_follower.process_image(
-            image,
-            output_filename=f"vision_frame_{frame_idx:04d}.png"
-        )
+        result = vision_follower.process_image(image)
+        
+        # Create visualization if requested
+        if save_viz and visualizer:
+            visualizer.visualize_gaps(image, result, f"vision_frame_{frame_idx:04d}.png")
         
         # Extract results
         steering_angle = result['steering_angle']
@@ -195,6 +197,9 @@ def main():
         free_space_threshold=args.threshold
     )
     
+    # Initialize visualizer if needed
+    visualizer = VisionGapVisualizer() if args.visualize else None
+    
     # Process frames
     results = []
     successful_frames = 0
@@ -206,7 +211,7 @@ def main():
         print(f"Processing frame {i+1}/{end_frame}: {timestamp}")
         
         # Analyze frame
-        frame_result = analyze_vision_frame(vision_file, vision_follower, i)
+        frame_result = analyze_vision_frame(vision_file, vision_follower, visualizer, i, args.visualize)
         
         if frame_result:
             frame_result['timestamp'] = timestamp.isoformat()
@@ -218,11 +223,11 @@ def main():
             
             # Print frame summary
             if frame_result['has_solution']:
-                print(f"  ✅ Steering: {frame_result['steering_angle_deg']:.1f}°, Gaps: {frame_result['gaps_found']}")
+                print(f"  [OK] Steering: {frame_result['steering_angle_deg']:.1f}°, Gaps: {frame_result['gaps_found']}")
             else:
-                print(f"  ❌ No solution, Gaps: {frame_result['gaps_found']}")
+                print(f"  [ERROR] No solution, Gaps: {frame_result['gaps_found']}")
         else:
-            print(f"  ❌ Processing failed")
+            print(f"  [ERROR] Processing failed")
     
     # Save results
     with open(args.output, 'w') as f:
@@ -259,7 +264,7 @@ def main():
     if args.visualize:
         print(f"Visualizations saved to: images/vision/")
     
-    print(f"\n✅ Analysis complete!")
+    print(f"\n[OK] Analysis complete!")
 
 
 if __name__ == "__main__":

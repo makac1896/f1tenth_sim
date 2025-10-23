@@ -15,7 +15,7 @@ import json
 # Add sim package to Python path
 sys.path.append(os.path.join(os.path.dirname(__file__), 'sim'))
 
-from sim.algorithms.vision_gap_follow import SimpleVisionGapFollower
+from sim.algorithms.vision_gap_follow import VisionGapFollower
 from sim.algorithms.rgb_aeb_safety import VisionAEBSafety
 from raw_to_png_converter import raw_to_png
 import cv2
@@ -66,10 +66,11 @@ def process_frame_with_safety(rgb_file, vision_processor, aeb_safety, frame_idx)
         if rgb_image is None:
             return None
         
-        # Process with gap detection (save to regular vision folder)
+        # Process with gap detection 
+        vision_result = vision_processor.process_image(rgb_image)
+        
+        # Extract timestamp for filenames
         timestamp = Path(rgb_file).stem.replace("image_", "")
-        gap_output_filename = f"gap_frame_{frame_idx:04d}_{timestamp[:15]}.png"
-        vision_processor.process_image(rgb_image, gap_output_filename, is_test=False)
         
         # Try to load depth data (will be None for current dataset)
         depth_file = rgb_file.replace('image_', 'depth_')
@@ -159,7 +160,7 @@ def main():
     clean_old_aeb_images(aeb_dir)
     
     # Initialize processors
-    vision_processor = SimpleVisionGapFollower()
+    vision_processor = VisionGapFollower()
     aeb_safety = VisionAEBSafety(min_free_space_percentage=0.3, safety_buffer=0.1)
     
     # Process frames
@@ -209,8 +210,11 @@ def main():
     
     print(f"\nAnalysis complete!")
     print(f"Processed {len(results)} frames")
-    print(f"Unsafe frames: {unsafe_count}/{len(results)} ({unsafe_count/len(results)*100:.1f}%)")
-    print(f"Results saved to: {results_file}")
+    if len(results) > 0:
+        print(f"Unsafe frames: {unsafe_count}/{len(results)} ({unsafe_count/len(results)*100:.1f}%)")
+        print(f"Results saved to: {results_file}")
+    else:
+        print("No frames processed successfully")
     print(f"Images saved to: images/vision/")
 
 

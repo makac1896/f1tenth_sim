@@ -14,18 +14,20 @@ import cv2
 class VisionAEBSafety:
     """Simple AEB safety system using vision and depth data"""
     
-    def __init__(self, safety_distance=1.0, min_gap_width=0.5):
+    def __init__(self, safety_distance=1.0, min_gap_width=0.5, aeb_fov_fraction=0.4):
         """
         Initialize AEB safety parameters
         
         Args:
             safety_distance (float): Minimum safe distance in meters
             min_gap_width (float): Minimum gap width in meters to be considered safe
+            aeb_fov_fraction (float): Fraction of image width to check for AEB (0.4 = center 40%)
         """
         self.safety_distance = safety_distance
         self.min_gap_width = min_gap_width
+        self.aeb_fov_fraction = aeb_fov_fraction
         
-        # ROI parameters (same as vision gap follow)
+        # ROI parameters for general vision processing
         self.roi_top_fraction = 0.7
         self.roi_bottom_fraction = 1.0
         self.roi_left_fraction = 0.0
@@ -37,6 +39,33 @@ class VisionAEBSafety:
         bottom = int(height * self.roi_bottom_fraction)
         left = int(width * self.roi_left_fraction)
         right = int(width * self.roi_right_fraction)
+        return top, bottom, left, right
+    
+    def get_aeb_safety_zone(self, height, width):
+        """
+        Get AEB-specific safety zone coordinates (narrower FOV directly in front)
+        
+        Args:
+            height (int): Image height
+            width (int): Image width
+            
+        Returns:
+            tuple: (top, bottom, left, right) coordinates for AEB safety zone
+        """
+        # Vertical: Same as general ROI (road area)
+        top = int(height * self.roi_top_fraction)
+        bottom = int(height * self.roi_bottom_fraction)
+        
+        # Horizontal: Center portion only (e.g., center 40% of image)
+        center_x = width // 2
+        half_aeb_width = int(width * self.aeb_fov_fraction / 2)
+        left = center_x - half_aeb_width
+        right = center_x + half_aeb_width
+        
+        # Ensure boundaries are within image
+        left = max(0, left)
+        right = min(width - 1, right)
+        
         return top, bottom, left, right
     
     def check_safety(self, rgb_image, depth_image):
@@ -59,11 +88,11 @@ class VisionAEBSafety:
         else:
             gray = rgb_image
         
-        # Get ROI
+        # Get AEB safety zone (narrower FOV directly in front of car)
         height, width = gray.shape
-        top, bottom, left, right = self.get_roi_coordinates(height, width)
+        top, bottom, left, right = self.get_aeb_safety_zone(height, width)
         
-        # Extract ROI from both images
+        # Extract AEB safety zone from both images
         roi_gray = gray[top:bottom, left:right]
         roi_depth = depth_image[top:bottom, left:right]
         
