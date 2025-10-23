@@ -16,7 +16,7 @@ import json
 sys.path.append(os.path.join(os.path.dirname(__file__), 'sim'))
 
 from sim.algorithms.vision_gap_follow import VisionGapFollower
-from sim.algorithms.rgb_aeb_safety import VisionAEBSafety
+from sim.utils.aeb_debug import VisionAEBSafetyDebug
 from raw_to_png_converter import raw_to_png
 import cv2
 import numpy as np
@@ -79,8 +79,13 @@ def process_frame_with_safety(rgb_file, vision_processor, aeb_safety, frame_idx)
             depth_image = load_depth_image(depth_file)
         
         # Check safety with both RGB and depth (algorithm handles the logic)
-        is_safe, reason, safety_data, annotated_image = aeb_safety.check_safety(rgb_image, depth_image)
-        action = aeb_safety.get_emergency_action(is_safe, safety_data)
+        is_safe, reason, safety_data, annotated_image = aeb_safety.check_safety_with_visualization(rgb_image, depth_image)
+        
+        # Determine action based on safety result
+        if is_safe:
+            action = {'action': 'continue', 'brake': False}
+        else:
+            action = {'action': 'emergency_stop', 'brake': True}
 
         # Save annotated AEB image to aeb folder
         aeb_dir = "images/vision/aeb"
@@ -161,7 +166,7 @@ def main():
     
     # Initialize processors
     vision_processor = VisionGapFollower()
-    aeb_safety = VisionAEBSafety(min_free_space_percentage=0.3, safety_buffer=0.1)
+    aeb_safety = VisionAEBSafetyDebug(min_free_space_percentage=0.5, safety_buffer=0.2)
     
     # Process frames
     results = []

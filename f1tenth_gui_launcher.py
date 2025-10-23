@@ -556,7 +556,7 @@ Terminal output will appear here in real-time.
         self.run_command(cmd, "Vision Algorithm Test")
 
     def run_test_vision_aeb(self):
-        cmd = [self.python_exe, "-c", "from sim.algorithms.vision_aeb_safety import test_vision_aeb; test_vision_aeb()"]
+        cmd = [self.python_exe, "-c", "from sim.utils.aeb_debug import test_vision_aeb_debug; test_vision_aeb_debug()"]
         self.run_command(cmd, "Vision AEB Test")
 
     def run_test_lidar_gap(self):

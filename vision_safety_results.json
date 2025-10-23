@@ -1,282 +1,242 @@
 [
   {
-    "frame_idx": 0,
-    "timestamp": "20251021T165247.546201Z",
-    "is_safe": true,
-    "reason": "RGB-only: Sufficient free space: 100.0% >= 40.0%",
-    "action": "continue",
+    "frame_idx": 230,
+    "timestamp": "20251021T175154.832087Z",
+    "is_safe": false,
+    "reason": "RGB-only: Insufficient free space: 65.9% < 70.0%",
+    "action": "emergency_stop",
     "safety_analysis": {
-      "rgb_analysis": {
-        "free_space_percentage": 1.0,
-        "required_free_space": 0.4,
-        "center_free_percentage": 1.0,
-        "has_forward_path": true,
-        "total_roi_pixels": 55296,
-        "free_space_pixels": 55296,
-        "is_safe": true,
-        "reason": "Sufficient free space: 100.0% >= 40.0%"
-      },
-      "depth_check": {
-        "status": "missing",
-        "reason": "No depth data available"
-      },
-      "final_decision": {
-        "is_safe": true,
-        "reason": "RGB-only: Sufficient free space: 100.0% >= 40.0%",
-        "method": "rgb_only"
-      }
+      "free_space_percentage": 0.6589084201388888,
+      "method": "rgb_only",
+      "min_depth": null
     }
   },
   {
-    "frame_idx": 1,
-    "timestamp": "20251021T165247.679219Z",
-    "is_safe": true,
-    "reason": "RGB-only: Sufficient free space: 100.0% >= 40.0%",
-    "action": "continue",
+    "frame_idx": 231,
+    "timestamp": "20251021T175154.898585Z",
+    "is_safe": false,
+    "reason": "RGB-only: Insufficient free space: 64.3% < 70.0%",
+    "action": "emergency_stop",
     "safety_analysis": {
-      "rgb_analysis": {
-        "free_space_percentage": 1.0,
-        "required_free_space": 0.4,
-        "center_free_percentage": 1.0,
-        "has_forward_path": true,
-        "total_roi_pixels": 55296,
-        "free_space_pixels": 55296,
-        "is_safe": true,
-        "reason": "Sufficient free space: 100.0% >= 40.0%"
-      },
-      "depth_check": {
-        "status": "missing",
-        "reason": "No depth data available"
-      },
-      "final_decision": {
-        "is_safe": true,
-        "reason": "RGB-only: Sufficient free space: 100.0% >= 40.0%",
-        "method": "rgb_only"
-      }
+      "free_space_percentage": 0.6431025752314815,
+      "method": "rgb_only",
+      "min_depth": null
     }
   },
   {
-    "frame_idx": 2,
-    "timestamp": "20251021T165247.878724Z",
-    "is_safe": true,
-    "reason": "RGB-only: Sufficient free space: 100.0% >= 40.0%",
-    "action": "continue",
+    "frame_idx": 232,
+    "timestamp": "20251021T175154.965126Z",
+    "is_safe": false,
+    "reason": "RGB-only: Insufficient free space: 62.2% < 70.0%",
+    "action": "emergency_stop",
     "safety_analysis": {
-      "rgb_analysis": {
-        "free_space_percentage": 1.0,
-        "required_free_space": 0.4,
-        "center_free_percentage": 1.0,
-        "has_forward_path": true,
-        "total_roi_pixels": 55296,
-        "free_space_pixels": 55296,
-        "is_safe": true,
-        "reason": "Sufficient free space: 100.0% >= 40.0%"
-      },
-      "depth_check": {
-        "status": "missing",
-        "reason": "No depth data available"
-      },
-      "final_decision": {
-        "is_safe": true,
-        "reason": "RGB-only: Sufficient free space: 100.0% >= 40.0%",
-        "method": "rgb_only"
-      }
+      "free_space_percentage": 0.6217628761574074,
+      "method": "rgb_only",
+      "min_depth": null
     }
   },
   {
-    "frame_idx": 3,
-    "timestamp": "20251021T165247.945221Z",
-    "is_safe": true,
-    "reason": "RGB-only: Sufficient free space: 100.0% >= 40.0%",
-    "action": "continue",
+    "frame_idx": 233,
+    "timestamp": "20251021T175155.031664Z",
+    "is_safe": false,
+    "reason": "RGB-only: Insufficient free space: 61.1% < 70.0%",
+    "action": "emergency_stop",
     "safety_analysis": {
-      "rgb_analysis": {
-        "free_space_percentage": 1.0,
-        "required_free_space": 0.4,
-        "center_free_percentage": 1.0,
-        "has_forward_path": true,
-        "total_roi_pixels": 55296,
-        "free_space_pixels": 55296,
-        "is_safe": true,
-        "reason": "Sufficient free space: 100.0% >= 40.0%"
-      },
-      "depth_check": {
-        "status": "missing",
-        "reason": "No depth data available"
-      },
-      "final_decision": {
-        "is_safe": true,
-        "reason": "RGB-only: Sufficient free space: 100.0% >= 40.0%",
-        "method": "rgb_only"
-      }
+      "free_space_percentage": 0.6108940972222222,
+      "method": "rgb_only",
+      "min_depth": null
     }
   },
   {
-    "frame_idx": 4,
-    "timestamp": "20251021T165248.410913Z",
-    "is_safe": true,
-    "reason": "RGB-only: Sufficient free space: 100.0% >= 40.0%",
-    "action": "continue",
+    "frame_idx": 234,
+    "timestamp": "20251021T175155.098198Z",
+    "is_safe": false,
+    "reason": "RGB-only: Insufficient free space: 58.7% < 70.0%",
+    "action": "emergency_stop",
     "safety_analysis": {
-      "rgb_analysis": {
-        "free_space_percentage": 1.0,
-        "required_free_space": 0.4,
-        "center_free_percentage": 1.0,
-        "has_forward_path": true,
-        "total_roi_pixels": 55296,
-        "free_space_pixels": 55296,
-        "is_safe": true,
-        "reason": "Sufficient free space: 100.0% >= 40.0%"
-      },
-      "depth_check": {
-        "status": "missing",
-        "reason": "No depth data available"
-      },
-      "final_decision": {
-        "is_safe": true,
-        "reason": "RGB-only: Sufficient free space: 100.0% >= 40.0%",
-        "method": "rgb_only"
-      }
+      "free_space_percentage": 0.5871853298611112,
+      "method": "rgb_only",
+      "min_depth": null
     }
   },
   {
-    "frame_idx": 5,
-    "timestamp": "20251021T165248.477428Z",
-    "is_safe": true,
-    "reason": "RGB-only: Sufficient free space: 100.0% >= 40.0%",
-    "action": "continue",
+    "frame_idx": 235,
+    "timestamp": "20251021T175155.164730Z",
+    "is_safe": false,
+    "reason": "RGB-only: Insufficient free space: 56.5% < 70.0%",
+    "action": "emergency_stop",
     "safety_analysis": {
-      "rgb_analysis": {
-        "free_space_percentage": 1.0,
-        "required_free_space": 0.4,
-        "center_free_percentage": 1.0,
-        "has_forward_path": true,
-        "total_roi_pixels": 55296,
-        "free_space_pixels": 55296,
-        "is_safe": true,
-        "reason": "Sufficient free space: 100.0% >= 40.0%"
-      },
-      "depth_check": {
-        "status": "missing",
-        "reason": "No depth data available"
-      },
-      "final_decision": {
-        "is_safe": true,
-        "reason": "RGB-only: Sufficient free space: 100.0% >= 40.0%",
-        "method": "rgb_only"
-      }
+      "free_space_percentage": 0.5645073784722222,
+      "method": "rgb_only",
+      "min_depth": null
     }
   },
   {
-    "frame_idx": 6,
-    "timestamp": "20251021T165248.543940Z",
-    "is_safe": true,
-    "reason": "RGB-only: Sufficient free space: 100.0% >= 40.0%",
-    "action": "continue",
+    "frame_idx": 236,
+    "timestamp": "20251021T175155.231258Z",
+    "is_safe": false,
+    "reason": "RGB-only: Insufficient free space: 52.7% < 70.0%",
+    "action": "emergency_stop",
     "safety_analysis": {
-      "rgb_analysis": {
-        "free_space_percentage": 1.0,
-        "required_free_space": 0.4,
-        "center_free_percentage": 1.0,
-        "has_forward_path": true,
-        "total_roi_pixels": 55296,
-        "free_space_pixels": 55296,
-        "is_safe": true,
-        "reason": "Sufficient free space: 100.0% >= 40.0%"
-      },
-      "depth_check": {
-        "status": "missing",
-        "reason": "No depth data available"
-      },
-      "final_decision": {
-        "is_safe": true,
-        "reason": "RGB-only: Sufficient free space: 100.0% >= 40.0%",
-        "method": "rgb_only"
-      }
+      "free_space_percentage": 0.5267831307870371,
+      "method": "rgb_only",
+      "min_depth": null
     }
   },
   {
-    "frame_idx": 7,
-    "timestamp": "20251021T165248.876451Z",
-    "is_safe": true,
-    "reason": "RGB-only: Sufficient free space: 100.0% >= 40.0%",
-    "action": "continue",
+    "frame_idx": 237,
+    "timestamp": "20251021T175155.297783Z",
+    "is_safe": false,
+    "reason": "RGB-only: Insufficient free space: 49.8% < 70.0%",
+    "action": "emergency_stop",
     "safety_analysis": {
-      "rgb_analysis": {
-        "free_space_percentage": 1.0,
-        "required_free_space": 0.4,
-        "center_free_percentage": 1.0,
-        "has_forward_path": true,
-        "total_roi_pixels": 55296,
-        "free_space_pixels": 55296,
-        "is_safe": true,
-        "reason": "Sufficient free space: 100.0% >= 40.0%"
-      },
-      "depth_check": {
-        "status": "missing",
-        "reason": "No depth data available"
-      },
-      "final_decision": {
-        "is_safe": true,
-        "reason": "RGB-only: Sufficient free space: 100.0% >= 40.0%",
-        "method": "rgb_only"
-      }
+      "free_space_percentage": 0.4976490162037037,
+      "method": "rgb_only",
+      "min_depth": null
     }
   },
   {
-    "frame_idx": 8,
-    "timestamp": "20251021T165248.942946Z",
-    "is_safe": true,
-    "reason": "RGB-only: Sufficient free space: 100.0% >= 40.0%",
-    "action": "continue",
+    "frame_idx": 238,
+    "timestamp": "20251021T175155.364305Z",
+    "is_safe": false,
+    "reason": "RGB-only: Insufficient free space: 48.9% < 70.0%",
+    "action": "emergency_stop",
     "safety_analysis": {
-      "rgb_analysis": {
-        "free_space_percentage": 1.0,
-        "required_free_space": 0.4,
-        "center_free_percentage": 1.0,
-        "has_forward_path": true,
-        "total_roi_pixels": 55296,
-        "free_space_pixels": 55296,
-        "is_safe": true,
-        "reason": "Sufficient free space: 100.0% >= 40.0%"
-      },
-      "depth_check": {
-        "status": "missing",
-        "reason": "No depth data available"
-      },
-      "final_decision": {
-        "is_safe": true,
-        "reason": "RGB-only: Sufficient free space: 100.0% >= 40.0%",
-        "method": "rgb_only"
-      }
+      "free_space_percentage": 0.4890407986111111,
+      "method": "rgb_only",
+      "min_depth": null
     }
   },
   {
-    "frame_idx": 9,
-    "timestamp": "20251021T165249.275580Z",
-    "is_safe": true,
-    "reason": "RGB-only: Sufficient free space: 100.0% >= 40.0%",
-    "action": "continue",
+    "frame_idx": 239,
+    "timestamp": "20251021T175155.430824Z",
+    "is_safe": false,
+    "reason": "RGB-only: Insufficient free space: 45.8% < 70.0%",
+    "action": "emergency_stop",
     "safety_analysis": {
-      "rgb_analysis": {
-        "free_space_percentage": 1.0,
-        "required_free_space": 0.4,
-        "center_free_percentage": 1.0,
-        "has_forward_path": true,
-        "total_roi_pixels": 55296,
-        "free_space_pixels": 55296,
-        "is_safe": true,
-        "reason": "Sufficient free space: 100.0% >= 40.0%"
-      },
-      "depth_check": {
-        "status": "missing",
-        "reason": "No depth data available"
-      },
-      "final_decision": {
-        "is_safe": true,
-        "reason": "RGB-only: Sufficient free space: 100.0% >= 40.0%",
-        "method": "rgb_only"
-      }
+      "free_space_percentage": 0.45826099537037035,
+      "method": "rgb_only",
+      "min_depth": null
+    }
+  },
+  {
+    "frame_idx": 240,
+    "timestamp": "20251021T175155.497340Z",
+    "is_safe": false,
+    "reason": "RGB-only: Insufficient free space: 43.3% < 70.0%",
+    "action": "emergency_stop",
+    "safety_analysis": {
+      "free_space_percentage": 0.4329788773148148,
+      "method": "rgb_only",
+      "min_depth": null
+    }
+  },
+  {
+    "frame_idx": 241,
+    "timestamp": "20251021T175155.563852Z",
+    "is_safe": false,
+    "reason": "RGB-only: Insufficient free space: 38.7% < 70.0%",
+    "action": "emergency_stop",
+    "safety_analysis": {
+      "free_space_percentage": 0.3874240451388889,
+      "method": "rgb_only",
+      "min_depth": null
+    }
+  },
+  {
+    "frame_idx": 242,
+    "timestamp": "20251021T175155.630362Z",
+    "is_safe": false,
+    "reason": "RGB-only: Insufficient free space: 35.4% < 70.0%",
+    "action": "emergency_stop",
+    "safety_analysis": {
+      "free_space_percentage": 0.35429325810185186,
+      "method": "rgb_only",
+      "min_depth": null
+    }
+  },
+  {
+    "frame_idx": 243,
+    "timestamp": "20251021T175155.696868Z",
+    "is_safe": false,
+    "reason": "RGB-only: Insufficient free space: 32.2% < 70.0%",
+    "action": "emergency_stop",
+    "safety_analysis": {
+      "free_space_percentage": 0.322265625,
+      "method": "rgb_only",
+      "min_depth": null
+    }
+  },
+  {
+    "frame_idx": 244,
+    "timestamp": "20251021T175155.763371Z",
+    "is_safe": false,
+    "reason": "RGB-only: Insufficient free space: 26.3% < 70.0%",
+    "action": "emergency_stop",
+    "safety_analysis": {
+      "free_space_percentage": 0.2632740162037037,
+      "method": "rgb_only",
+      "min_depth": null
+    }
+  },
+  {
+    "frame_idx": 245,
+    "timestamp": "20251021T175155.829872Z",
+    "is_safe": false,
+    "reason": "RGB-only: Insufficient free space: 19.5% < 70.0%",
+    "action": "emergency_stop",
+    "safety_analysis": {
+      "free_space_percentage": 0.19493272569444445,
+      "method": "rgb_only",
+      "min_depth": null
+    }
+  },
+  {
+    "frame_idx": 246,
+    "timestamp": "20251021T175155.896370Z",
+    "is_safe": false,
+    "reason": "RGB-only: Insufficient free space: 11.6% < 70.0%",
+    "action": "emergency_stop",
+    "safety_analysis": {
+      "free_space_percentage": 0.11572265625,
+      "method": "rgb_only",
+      "min_depth": null
+    }
+  },
+  {
+    "frame_idx": 247,
+    "timestamp": "20251021T175155.962966Z",
+    "is_safe": false,
+    "reason": "RGB-only: Insufficient free space: 4.7% < 70.0%",
+    "action": "emergency_stop",
+    "safety_analysis": {
+      "free_space_percentage": 0.04698350694444445,
+      "method": "rgb_only",
+      "min_depth": null
+    }
+  },
+  {
+    "frame_idx": 248,
+    "timestamp": "20251021T175156.029848Z",
+    "is_safe": false,
+    "reason": "RGB-only: Insufficient free space: 0.9% < 70.0%",
+    "action": "emergency_stop",
+    "safety_analysis": {
+      "free_space_percentage": 0.00882523148148148,
+      "method": "rgb_only",
+      "min_depth": null
+    }
+  },
+  {
+    "frame_idx": 249,
+    "timestamp": "20251021T175156.096730Z",
+    "is_safe": false,
+    "reason": "RGB-only: Insufficient free space: 0.4% < 70.0%",
+    "action": "emergency_stop",
+    "safety_analysis": {
+      "free_space_percentage": 0.003616898148148148,
+      "method": "rgb_only",
+      "min_depth": null
     }
   }
 ]
