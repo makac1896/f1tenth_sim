@@ -10,6 +10,9 @@ from cv_bridge import CvBridge
 import cv2
 import numpy as np
 from math import radians, degrees
+from datetime import datetime
+import json
+import os
 
 
 class VisionGapFollowing(Node):
@@ -56,6 +59,9 @@ class VisionGapFollowing(Node):
         self.rgb_image = None
         self.depth_image = None
 
+        # Setup enhanced logging with JSON output and parameter logging
+        self._setup_logging()
+
         self.rgb_subscription = self.create_subscription(
             Image, '/camera/color/image_raw', self.rgb_callback, 10)
         self.depth_subscription = self.create_subscription(
@@ -64,18 +70,160 @@ class VisionGapFollowing(Node):
         self.publisher = self.create_publisher(
             AckermannDriveStamped, '/drive_raw', 10)
 
-        self.get_logger().info(
-            f"VisionGapFollowing node initialized in {self.driving_mode.upper()} mode")
-        self.get_logger().info(
-            f"RGB ROI: {self.rgb_roi_top_fraction}-{self.rgb_roi_bottom_fraction}, "
-            f"Depth ROI: {self.depth_roi_top_fraction}-{self.depth_roi_bottom_fraction}")
-        self.get_logger().info(
-            f"Lookahead distance: {self.lookahead_distance}m, "
-            f"Min gap width: {self.min_depth_gap_width_px}px")
+        # Log parameters at startup
+        self._log_parameters()
+        
+        self.log_message(f"VisionGapFollowing node initialized in {self.driving_mode.upper()} mode")
+        self.log_message(f"RGB ROI: {self.rgb_roi_top_fraction}-{self.rgb_roi_bottom_fraction}, "
+                        f"Depth ROI: {self.depth_roi_top_fraction}-{self.depth_roi_bottom_fraction}")
+        self.log_message(f"Lookahead distance: {self.lookahead_distance}m, "
+                        f"Min gap width: {self.min_depth_gap_width_px}px")
+
+    # =====================================================
+    # Enhanced Logging System
+    # =====================================================
+    def _setup_logging(self):
+        """Setup timestamped log files for both text and JSON data"""
+        timestamp = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+        os.makedirs('logs', exist_ok=True)
+        self.log_file = f'logs/vision_hybrid_follow_{timestamp}.log'
+        self.json_log_file = f'logs/vision_hybrid_data_{timestamp}.json'
+        self.log_data = []
+
+    def _log_parameters(self):
+        """Log all algorithm parameters at startup for reproducibility"""
+        params = {
+            'timestamp': datetime.now().isoformat(),
+            'node_type': 'VisionHybridFollowing',
+            'parameters': {
+                # Core parameters
+                'car_width': self.car_width,
+                'free_space_threshold': self.free_space_threshold,
+                'min_gap_width_meters': self.min_gap_width_meters,
+                'min_gap_width_pixels': self.min_gap_width_pixels,
+                'smoothing_factor': self.smoothing_factor,
+                'min_free_space_ratio': self.min_free_space_ratio,
+                'speed': self.speed,
+                'max_speed': self.max_speed,
+                'min_speed': self.min_speed,
+                'camera_fov_deg': self.camera_fov_deg,
+                'corner_threshold': self.corner_threshold,
+                'steering_offset': self.steering_offset,
+                
+                # Driving mode
+                'driving_mode': self.driving_mode,
+                
+                # Depth parameters
+                'depth_min_valid': self.depth_min_valid,
+                'depth_max_valid': self.depth_max_valid,
+                'lookahead_distance': self.lookahead_distance,
+                'min_depth_gap_width_px': self.min_depth_gap_width_px,
+                
+                # ROI parameters
+                'rgb_roi_top_fraction': self.rgb_roi_top_fraction,
+                'rgb_roi_bottom_fraction': self.rgb_roi_bottom_fraction,
+                'rgb_roi_left_fraction': self.rgb_roi_left_fraction,
+                'rgb_roi_right_fraction': self.rgb_roi_right_fraction,
+                'depth_roi_top_fraction': self.depth_roi_top_fraction,
+                'depth_roi_bottom_fraction': self.depth_roi_bottom_fraction
+            }
+        }
+        
+        # Write parameter log
+        try:
+            with open(self.json_log_file, 'w') as f:
+                json.dump([params], f, indent=2)
+            self.log_message(f"Parameters logged to {self.json_log_file}")
+        except Exception as e:
+            self.get_logger().error(f"Failed to write parameter log: {e}")
+
+    def log_message(self, message, level='INFO'):
+        """
+        Enhanced logging to both ROS logger and timestamped file with structured data
+        
+        Args:
+            message: The message to log
+            level: Log level ('INFO', 'WARN', 'ERROR', 'DEBUG')
+        """
+        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]
+        log_entry = f"[{timestamp}] [{level}] {message}"
+        
+        # Write to text log file
+        try:
+            with open(self.log_file, 'a') as f:
+                f.write(log_entry + '\n')
+        except Exception as e:
+            self.get_logger().error(f"Failed to write to log file: {e}")
+        
+        # Write to ROS logger
+        if level == 'INFO':
+            self.get_logger().info(message)
+        elif level == 'WARN':
+            self.get_logger().warn(message)
+        elif level == 'ERROR':
+            self.get_logger().error(message)
+        elif level == 'DEBUG':
+            self.get_logger().debug(message)
+
+    def log_driving_data(self, steering_angle, gaps_data, debug_info):
+        """
+        Log structured driving data for analysis
+        
+        Args:
+            steering_angle: Final steering angle in radians
+            gaps_data: Dictionary with gap detection results
+            debug_info: Additional debug information
+        """
+        data_entry = {
+            'timestamp': datetime.now().isoformat(),
+            'steering_angle_rad': float(steering_angle) if steering_angle is not None else None,
+            'steering_angle_deg': float(degrees(steering_angle)) if steering_angle is not None else None,
+            'driving_mode': debug_info.get('actual_mode_used', 'UNKNOWN'),
+            'rgb_gaps_count': debug_info.get('rgb_gaps', 0),
+            'depth_gaps_count': debug_info.get('depth_gaps', 0),
+            'selected_gaps_count': len(debug_info.get('selected_gaps', [])),
+            'corner_detected': debug_info.get('corner_detected', False),
+            'raw_steering_angle': float(debug_info.get('steering_angle_raw')) if debug_info.get('steering_angle_raw') is not None else None,
+            'smoothed_steering_angle': float(debug_info.get('steering_angle_smoothed')) if debug_info.get('steering_angle_smoothed') is not None else None,
+        }
+        
+        # Add gap details if available
+        if debug_info.get('selected_gaps'):
+            gap_details = []
+            for gap in debug_info['selected_gaps']:
+                if isinstance(gap, dict):
+                    gap_details.append({
+                        'center': float(gap['center']),
+                        'width': int(gap['width']),
+                        'avg_depth': float(gap.get('avg_depth', 0))
+                    })
+                else:
+                    # Tuple format (start, end, center, width)
+                    gap_details.append({
+                        'center': float(gap[2]),
+                        'width': int(gap[3]),
+                        'start': int(gap[0]),
+                        'end': int(gap[1])
+                    })
+            data_entry['gap_details'] = gap_details
+        
+        self.log_data.append(data_entry)
+        
+        # Write to JSON file every 10 entries to avoid losing data
+        if len(self.log_data) % 10 == 0:
+            try:
+                with open(self.json_log_file, 'r') as f:
+                    existing_data = json.load(f)
+                existing_data.extend(self.log_data)
+                with open(self.json_log_file, 'w') as f:
+                    json.dump(existing_data, f, indent=2)
+                self.log_data = []  # Clear buffer
+            except Exception as e:
+                self.get_logger().error(f"Failed to write JSON log: {e}")
 
     # =====================================================
     # RGB and Depth Callbacks
-    # =====================================================
+    # ====================================================="
     def rgb_callback(self, msg):
         try:
             self.rgb_image = self.bridge.imgmsg_to_cv2(msg, "bgr8")
@@ -99,9 +247,10 @@ class VisionGapFollowing(Node):
 
         result = self.process_image(self.rgb_image, self.depth_image)
         steering_angle = result['steering_angle']
+        debug = result['debug']
+        
         if steering_angle is not None:
             self.vehicle_control(-steering_angle)
-            debug = result['debug']
             
             # Enhanced logging with gap details
             gap_info = ""
@@ -117,15 +266,21 @@ class VisionGapFollowing(Node):
             
             corner_status = "Corner" if debug.get('corner_detected', False) else "Normal"
             
-            self.get_logger().info(
+            self.log_message(
                 f"Steering: {degrees(steering_angle):.2f}° | "
-                f"Mode: {debug['mode']} | "
+                f"Mode: {debug['actual_mode_used']} | "
                 f"RGB: {debug['rgb_gaps']}, Depth: {debug['depth_gaps']} | "
                 f"{corner_status}{gap_info}"
             )
+            
+            # Log structured driving data
+            self.log_driving_data(steering_angle, {}, debug)
         else:
             self.vehicle_control(0.0, emergency=True)
-            self.get_logger().warn("No valid gap found - emergency stop")
+            self.log_message("No valid gap found - emergency stop", 'WARN')
+            
+            # Log failed steering attempt
+            self.log_driving_data(None, {}, debug)
 
     # =====================================================
     # Combined Logic (keeps RGB pipeline unchanged)

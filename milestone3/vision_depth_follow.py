@@ -16,6 +16,9 @@ from cv_bridge import CvBridge
 import cv2
 import numpy as np
 from math import radians, degrees
+from datetime import datetime
+import json
+import os
 
 
 class VisionDepthFollowing(Node):
@@ -52,6 +55,9 @@ class VisionDepthFollowing(Node):
         self.bridge = CvBridge()
         self.depth_image = None
 
+        # Setup enhanced logging with JSON output and parameter logging
+        self._setup_logging()
+
         # Subscribe to depth (required)
         self.depth_subscription = self.create_subscription(
             Image, '/camera/depth/image_rect_raw', self.depth_callback, 10)
@@ -62,13 +68,163 @@ class VisionDepthFollowing(Node):
 
         self.publisher = self.create_publisher(AckermannDriveStamped, '/drive_raw', 10)
 
-        self.get_logger().info(
-            f"VisionDepthFollowing node initialized (depth-only)")
-        self.get_logger().info(
-            f"Depth ROI: {self.depth_roi_top_fraction}-{self.depth_roi_bottom_fraction}")
-        self.get_logger().info(
-            f"Lookahead distance: {self.lookahead_distance}m, Min gap width: {self.min_depth_gap_width_px}px")
+        # Log parameters at startup
+        self._log_parameters()
 
+        self.log_message(f"VisionDepthFollowing node initialized (depth-only)")
+        self.log_message(f"Depth ROI: {self.depth_roi_top_fraction}-{self.depth_roi_bottom_fraction}")
+        self.log_message(f"Lookahead distance: {self.lookahead_distance}m, Min gap width: {self.min_depth_gap_width_px}px")
+
+    # =====================================================
+    # Enhanced Logging System  
+    # =====================================================
+    def _setup_logging(self):
+        """Setup timestamped log files for both text and JSON data"""
+        timestamp = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+        os.makedirs('logs', exist_ok=True)
+        self.log_file = f'logs/vision_depth_follow_{timestamp}.log'
+        self.json_log_file = f'logs/vision_depth_data_{timestamp}.json'
+        self.log_data = []
+
+    def _log_parameters(self):
+        """Log all algorithm parameters at startup for reproducibility"""
+        params = {
+            'timestamp': datetime.now().isoformat(),
+            'node_type': 'VisionDepthFollowing',
+            'parameters': {
+                # Core parameters
+                'car_width': self.car_width,
+                'camera_fov_deg': self.camera_fov_deg,
+                'steering_offset': self.steering_offset,
+                'smoothing_factor': self.smoothing_factor,
+                'speed': self.speed,
+                
+                # Depth-specific parameters
+                'depth_min_valid': self.depth_min_valid,
+                'depth_max_valid': self.depth_max_valid,
+                'lookahead_distance': self.lookahead_distance,
+                'min_depth_gap_width_px': self.min_depth_gap_width_px,
+                
+                # ROI parameters
+                'rgb_roi_top_fraction': self.rgb_roi_top_fraction,
+                'rgb_roi_bottom_fraction': self.rgb_roi_bottom_fraction,
+                'rgb_roi_left_fraction': self.rgb_roi_left_fraction,
+                'rgb_roi_right_fraction': self.rgb_roi_right_fraction,
+                'depth_roi_top_fraction': self.depth_roi_top_fraction,
+                'depth_roi_bottom_fraction': self.depth_roi_bottom_fraction,
+                
+                # Algorithm-specific parameters
+                'noise_reduction': {
+                    'median_blur_kernel': 5,
+                    'gaussian_blur_kernel': (3, 3),
+                    'spatial_smoothing_sigma': 1.5,
+                    'min_valid_pixels_ratio': 0.2,
+                    'lookahead_threshold_factor': 0.7
+                },
+                'morphological_ops': {
+                    'horizontal_kernel_size': (1, 5),
+                    'clean_kernel_size': (1, 2)
+                }
+            }
+        }
+        
+        # Write parameter log
+        try:
+            with open(self.json_log_file, 'w') as f:
+                json.dump([params], f, indent=2)
+            self.log_message(f"Parameters logged to {self.json_log_file}")
+        except Exception as e:
+            self.get_logger().error(f"Failed to write parameter log: {e}")
+
+    def log_message(self, message, level='INFO'):
+        """
+        Enhanced logging to both ROS logger and timestamped file
+        
+        Args:
+            message: The message to log
+            level: Log level ('INFO', 'WARN', 'ERROR', 'DEBUG')
+        """
+        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]
+        log_entry = f"[{timestamp}] [{level}] {message}"
+        
+        # Write to text log file
+        try:
+            with open(self.log_file, 'a') as f:
+                f.write(log_entry + '\n')
+        except Exception as e:
+            self.get_logger().error(f"Failed to write to log file: {e}")
+        
+        # Write to ROS logger
+        if level == 'INFO':
+            self.get_logger().info(message)
+        elif level == 'WARN':
+            self.get_logger().warn(message)
+        elif level == 'ERROR':
+            self.get_logger().error(message)
+        elif level == 'DEBUG':
+            self.get_logger().debug(message)
+
+    def log_driving_data(self, steering_angle, gaps_data, additional_info=None):
+        """
+        Log structured driving data for analysis
+        
+        Args:
+            steering_angle: Final steering angle in radians
+            gaps_data: List of detected gaps
+            additional_info: Additional debug information
+        """
+        data_entry = {
+            'timestamp': datetime.now().isoformat(),
+            'steering_angle_rad': float(steering_angle) if steering_angle is not None else None,
+            'steering_angle_deg': float(degrees(steering_angle)) if steering_angle is not None else None,
+            'driving_mode': 'DEPTH_ONLY',
+            'gaps_count': len(gaps_data) if gaps_data else 0,
+            'corner_detected': self.is_corner,
+        }
+        
+        # Add gap details
+        if gaps_data:
+            gap_details = []
+            for gap in gaps_data:
+                if isinstance(gap, dict):
+                    gap_details.append({
+                        'center': float(gap['center']),
+                        'width': int(gap['width']),
+                        'avg_depth': float(gap.get('avg_depth', 0)),
+                        'start': int(gap['start']),
+                        'end': int(gap['end'])
+                    })
+            data_entry['gap_details'] = gap_details
+            
+            # Log best gap selection
+            if gap_details:
+                best_gap = max(gaps_data, key=lambda g: g.get('avg_depth', 0))
+                data_entry['selected_gap'] = {
+                    'center': float(best_gap['center']),
+                    'width': int(best_gap['width']),
+                    'avg_depth': float(best_gap.get('avg_depth', 0))
+                }
+        
+        if additional_info:
+            data_entry.update(additional_info)
+        
+        self.log_data.append(data_entry)
+        
+        # Write to JSON file every 10 entries to avoid losing data
+        if len(self.log_data) % 10 == 0:
+            try:
+                with open(self.json_log_file, 'r') as f:
+                    existing_data = json.load(f)
+                existing_data.extend(self.log_data)
+                with open(self.json_log_file, 'w') as f:
+                    json.dump(existing_data, f, indent=2)
+                self.log_data = []  # Clear buffer
+            except Exception as e:
+                self.get_logger().error(f"Failed to write JSON log: {e}")
+
+    # =====================================================
+    # Depth Callback
+    # =====================================================
     # Depth callback
     def depth_callback(self, msg):
         try:
@@ -96,11 +252,32 @@ class VisionDepthFollowing(Node):
         if smoothed is not None:
             # Use same sign convention as hybrid node (invert if necessary)
             self.vehicle_control(-smoothed)
-            self.get_logger().info(
-                f"Steering: {degrees(smoothed):.2f}° | Gaps: {len(gaps)}")
+            
+            # Enhanced logging with gap details
+            gap_info = ""
+            if gaps:
+                best_gap = max(gaps, key=lambda g: g.get('avg_depth', 0))
+                gap_info = f" | Best gap: center={best_gap['center']:.1f}, depth={best_gap['avg_depth']:.2f}m, width={best_gap['width']}px"
+            
+            corner_status = "Corner" if self.is_corner else "Normal"
+            
+            self.log_message(
+                f"Steering: {degrees(smoothed):.2f}° | "
+                f"Gaps: {len(gaps)} | "
+                f"{corner_status}{gap_info}"
+            )
+            
+            # Log structured driving data
+            self.log_driving_data(smoothed, gaps, {
+                'raw_steering_angle': steering_angle,
+                'smoothed_steering_angle': smoothed
+            })
         else:
             self.vehicle_control(0.0, emergency=True)
-            self.get_logger().warn("No valid gap found - emergency stop")
+            self.log_message("No valid gap found - emergency stop", 'WARN')
+            
+            # Log failed steering attempt
+            self.log_driving_data(None, gaps)
 
     # ---------------- Depth pipeline (copied from hybrid) ----------------
     def find_gaps_from_depth(self, depth_image):
