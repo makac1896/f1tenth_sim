@@ -38,11 +38,16 @@ class VisionGapFollowing(Node):
     last_angle = 0.0
     is_corner = False
 
-    # ===== ROI (same as working RGB) =====
-    roi_top_fraction = 0.5
-    roi_bottom_fraction = 1.0
-    roi_left_fraction = 0.0
-    roi_right_fraction = 1.0
+    # ===== ROI Parameters =====
+    # RGB ROI (keep original working parameters)
+    rgb_roi_top_fraction = 0.5
+    rgb_roi_bottom_fraction = 1.0
+    rgb_roi_left_fraction = 0.0
+    rgb_roi_right_fraction = 1.0
+    
+    # Depth ROI (optimized parameters from testing)
+    depth_roi_top_fraction = 0.3
+    depth_roi_bottom_fraction = 0.8
 
     def __init__(self):
         super().__init__('vision_follow_node')
@@ -61,6 +66,12 @@ class VisionGapFollowing(Node):
 
         self.get_logger().info(
             f"VisionGapFollowing node initialized in {self.driving_mode.upper()} mode")
+        self.get_logger().info(
+            f"RGB ROI: {self.rgb_roi_top_fraction}-{self.rgb_roi_bottom_fraction}, "
+            f"Depth ROI: {self.depth_roi_top_fraction}-{self.depth_roi_bottom_fraction}")
+        self.get_logger().info(
+            f"Lookahead distance: {self.lookahead_distance}m, "
+            f"Min gap width: {self.min_depth_gap_width_px}px")
 
     # =====================================================
     # RGB and Depth Callbacks
@@ -91,10 +102,26 @@ class VisionGapFollowing(Node):
         if steering_angle is not None:
             self.vehicle_control(-steering_angle)
             debug = result['debug']
+            
+            # Enhanced logging with gap details
+            gap_info = ""
+            if debug['selected_gaps']:
+                if isinstance(debug['selected_gaps'][0], dict):
+                    # Depth gaps with avg_depth
+                    best_gap = debug['selected_gaps'][0]
+                    gap_info = f" | Best gap: center={best_gap['center']:.1f}, depth={best_gap['avg_depth']:.2f}m"
+                else:
+                    # RGB gaps
+                    best_gap = debug['selected_gaps'][0]
+                    gap_info = f" | Best gap: center={best_gap[2]}, width={best_gap[3]}px"
+            
+            corner_status = "Corner" if debug.get('corner_detected', False) else "Normal"
+            
             self.get_logger().info(
-                f"Steering: {degrees(steering_angle):.2f}°, "
-                f"Mode: {debug['mode']}, "
-                f"RGB gaps: {debug['rgb_gaps']}, Depth gaps: {debug['depth_gaps']}"
+                f"Steering: {degrees(steering_angle):.2f}° | "
+                f"Mode: {debug['mode']} | "
+                f"RGB: {debug['rgb_gaps']}, Depth: {debug['depth_gaps']} | "
+                f"{corner_status}{gap_info}"
             )
         else:
             self.vehicle_control(0.0, emergency=True)
@@ -135,7 +162,9 @@ class VisionGapFollowing(Node):
         debug = {
             'mode': mode,
             'rgb_gaps': len(rgb_gaps),
-            'depth_gaps': len(depth_gaps)
+            'depth_gaps': len(depth_gaps),
+            'selected_gaps': selected_gaps,
+            'corner_detected': self.is_corner
         }
 
         return {'steering_angle': smoothed_angle, 'debug': debug}
@@ -196,41 +225,118 @@ class VisionGapFollowing(Node):
         return {'gaps': gaps}
 
     # =====================================================
-    # Depth Gap Detection
+    # Enhanced Depth Gap Detection with Noise Reduction
     # =====================================================
     def find_gaps_from_depth(self, depth_image):
-        depth_image = np.clip(depth_image, self.depth_min_valid, self.depth_max_valid)
-        H, W = depth_image.shape
-        y_top = int(H * self.roi_top_fraction)
-        y_bot = int(H * self.roi_bottom_fraction)
-        roi = depth_image[y_top:y_bot, :]
-
+        """
+        Enhanced depth processing with noise reduction and streak cleaning
+        """
+        # Step 1: Apply noise reduction to raw depth image
+        filtered_depth = cv2.medianBlur((depth_image * 1000).astype(np.uint16), 5).astype(np.float32) / 1000.0
+        smooth_depth = cv2.GaussianBlur(filtered_depth, (3, 3), 0)
+        
+        # Step 2: Clip depth values to valid range
+        clipped_depth = np.clip(smooth_depth, self.depth_min_valid, self.depth_max_valid)
+        
+        # Step 3: Extract ROI using depth-specific parameters
+        H, W = clipped_depth.shape
+        y_top = int(H * self.depth_roi_top_fraction)
+        y_bot = int(H * self.depth_roi_bottom_fraction)
+        roi_depth = clipped_depth[y_top:y_bot, :]
+        
+        # Step 4: Calculate robust statistics per column
         median_depth = np.zeros(W)
+        valid_pixel_count = np.zeros(W)
+        
         for x in range(W):
-            col = roi[:, x]
+            col = roi_depth[:, x]
             valid = col[(col > self.depth_min_valid) & (col < self.depth_max_valid)]
-            median_depth[x] = np.median(valid) if len(valid) > 0 else 0
-
-        navigable = median_depth >= self.lookahead_distance
-        gaps = []
-        start = None
-        for x in range(W):
-            if navigable[x]:
-                if start is None:
-                    start = x
+            
+            if len(valid) > 0:
+                median_depth[x] = np.median(valid)
+                valid_pixel_count[x] = len(valid)
             else:
-                if start is not None:
-                    width_px = x - start
-                    if width_px >= self.min_depth_gap_width_px:
-                        center = start + width_px // 2
-                        gaps.append((start, x, center, width_px))
-                    start = None
-        if start is not None:
-            width_px = W - start
-            if width_px >= self.min_depth_gap_width_px:
-                center = start + width_px // 2
-                gaps.append((start, W, center, width_px))
+                median_depth[x] = 0
+                valid_pixel_count[x] = 0
+        
+        # Step 5: Apply spatial smoothing to reduce streaks
+        try:
+            from scipy.ndimage import gaussian_filter1d
+            smoothed_median = gaussian_filter1d(median_depth, sigma=1.5)
+        except ImportError:
+            # Fallback to moving average
+            kernel_size = 3
+            kernel = np.ones(kernel_size) / kernel_size
+            smoothed_median = np.convolve(median_depth, kernel, mode='same')
+        
+        # Step 6: Create improved navigability mask
+        min_valid_pixels = roi_depth.shape[0] * 0.2  # 20% of ROI height must be valid
+        lookahead_threshold = self.lookahead_distance * 0.7  # 70% of lookahead distance
+        
+        navigable_raw = (
+            (smoothed_median >= lookahead_threshold) &
+            (valid_pixel_count >= min_valid_pixels)
+        )
+        
+        # Step 7: Apply morphological operations to clean up streaks
+        navigable_clean = self._clean_navigability_streaks(navigable_raw)
+        
+        # Step 8: Find gaps with depth information
+        gaps = self._find_depth_gaps(navigable_clean, smoothed_median)
+        
         return {'gaps': gaps}
+    
+    def _clean_navigability_streaks(self, navigable_raw):
+        """Clean up streaky navigability mask using morphological operations"""
+        mask_uint8 = navigable_raw.astype(np.uint8) * 255
+        mask_2d = mask_uint8.reshape(1, -1)
+        
+        # Create horizontal kernel to smooth column-wise streaks  
+        kernel_horizontal = np.ones((1, 5), np.uint8)
+        closed = cv2.morphologyEx(mask_2d, cv2.MORPH_CLOSE, kernel_horizontal)
+        
+        # Use smaller opening kernel to preserve more navigable areas
+        kernel_clean = np.ones((1, 2), np.uint8)
+        opened = cv2.morphologyEx(closed, cv2.MORPH_OPEN, kernel_clean)
+        
+        return (opened.flatten() > 127)
+    
+    def _find_depth_gaps(self, navigable_mask, median_depths=None):
+        """Find gaps in the navigable mask with depth information"""
+        gaps = []
+        
+        # Find connected components of True values
+        diff = np.diff(np.concatenate(([False], navigable_mask, [False])))
+        starts = np.where(diff)[0]
+        
+        for i in range(0, len(starts), 2):
+            if i + 1 < len(starts):
+                start = starts[i]
+                end = starts[i + 1] - 1
+                width = end - start + 1
+                
+                # Filter by minimum width
+                if width >= self.min_depth_gap_width_px:
+                    center = (start + end) / 2
+                    
+                    # Calculate average depth of the gap
+                    avg_depth = 0.0
+                    if median_depths is not None:
+                        gap_depths = median_depths[start:end+1]
+                        avg_depth = np.mean(gap_depths) if len(gap_depths) > 0 else 0.0
+                    
+                    # Return as dictionary format for enhanced gap selection
+                    gaps.append({
+                        'start': start,
+                        'end': end, 
+                        'center': center,
+                        'width': width,
+                        'avg_depth': avg_depth
+                    })
+        
+        # Sort by width (largest first) initially
+        gaps.sort(key=lambda g: g['width'], reverse=True)
+        return gaps
 
     # =====================================================
     # Steering and Control (unchanged)
@@ -238,8 +344,17 @@ class VisionGapFollowing(Node):
     def calculate_steering_angle(self, gaps, free_space_mask):
         if not gaps:
             return None
-        best_gap = max(gaps, key=lambda gap: gap[3])
-        gap_center_x = best_gap[2]
+        
+        # Select best gap - prefer deepest gap for depth mode, widest for RGB
+        if isinstance(gaps[0], dict) and 'avg_depth' in gaps[0]:
+            # For depth gaps, prefer the deepest one for safety
+            best_gap = max(gaps, key=lambda gap: gap['avg_depth'])
+            gap_center_x = best_gap['center']
+        else:
+            # For RGB gaps (tuple format), use widest
+            best_gap = max(gaps, key=lambda gap: gap[3] if isinstance(gap, tuple) else gap['width'])
+            gap_center_x = best_gap[2] if isinstance(best_gap, tuple) else best_gap['center']
+        
         image_width = free_space_mask.shape[1]
         image_center_x = image_width // 2
         camera_fov_rad = radians(self.camera_fov_deg)
@@ -247,10 +362,13 @@ class VisionGapFollowing(Node):
         angle_per_pixel = camera_fov_rad / image_width
         steering_angle = pixel_offset * angle_per_pixel
         steering_angle *= 0.5  # same scaling
+        
+        # Apply steering offset based on corner detection
         if not self.is_corner:
             steering_angle += self.steering_offset * 1.5
         else:
             steering_angle += self.steering_offset * 2.7
+            
         return steering_angle
 
     def smooth_steering(self, target_angle, override_smoothing=False):
@@ -282,11 +400,12 @@ class VisionGapFollowing(Node):
         )
 
     def get_roi_coordinates(self, image_height, image_width):
+        """Get RGB ROI coordinates (keep original working parameters)"""
         return (
-            int(image_height * self.roi_top_fraction),
-            int(image_height * self.roi_bottom_fraction),
-            int(image_width * self.roi_left_fraction),
-            int(image_width * self.roi_right_fraction),
+            int(image_height * self.rgb_roi_top_fraction),
+            int(image_height * self.rgb_roi_bottom_fraction),
+            int(image_width * self.rgb_roi_left_fraction),
+            int(image_width * self.rgb_roi_right_fraction),
         )
 
 

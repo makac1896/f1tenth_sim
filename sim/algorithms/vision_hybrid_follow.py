@@ -41,12 +41,9 @@ class VisionHybridFollower:
                  depth_min_valid=0.1,
                  depth_max_valid=5.0,
                  lookahead_distance=1.0,
-                 min_depth_gap_width_px=30,
-                 
-                 # Advanced depth processing parameters
-                 close_obstacle_threshold=0.6,  # Closer threshold based on data analysis
-                 obstacle_pixel_ratio=0.5,      # More permissive ratio
-                 depth_smoothing_kernel=7):      # Larger smoothing to reduce streaks
+                 roi_top_fraction=0.4,
+                 roi_bottom_fraction=0.9,
+                 min_depth_gap_width_px=30):
         """
         Initialize the vision hybrid follower
         
@@ -71,20 +68,17 @@ class VisionHybridFollower:
         self.depth_min_valid = depth_min_valid
         self.depth_max_valid = depth_max_valid
         self.lookahead_distance = lookahead_distance
+        self.roi_top_fraction = roi_top_fraction
+        self.roi_bottom_fraction = roi_bottom_fraction
         self.min_depth_gap_width_px = min_depth_gap_width_px
-        
-        # Advanced depth processing parameters
-        self.close_obstacle_threshold = close_obstacle_threshold
-        self.obstacle_pixel_ratio = obstacle_pixel_ratio
-        self.depth_smoothing_kernel = depth_smoothing_kernel
         
         # State tracking
         self.last_angle = 0.0
         self.is_corner = False
         
-        # ROI parameters (same as working RGB)
-        self.roi_top_fraction = 0.5
-        self.roi_bottom_fraction = 1.0
+        # ROI parameters - look higher up to catch navigable space
+        self.roi_top_fraction = 0.3  # Start higher up (was 0.5)
+        self.roi_bottom_fraction = 0.8  # Don't go all the way to bottom (was 1.0)
         self.roi_left_fraction = 0.0
         self.roi_right_fraction = 1.0
     
@@ -276,7 +270,7 @@ class VisionHybridFollower:
     
     def _process_depth_pipeline(self, depth_image):
         """
-        Process depth image for gap detection with improved obstacle detection
+        Process depth image for gap detection with noise reduction
         
         Args:
             depth_image (np.ndarray): Input depth image (in meters)
@@ -286,25 +280,28 @@ class VisionHybridFollower:
         """
         debug_stages = {}
         
-        # Step 1: Clip depth values to valid range
-        clipped_depth = np.clip(depth_image, self.depth_min_valid, self.depth_max_valid)
+        # Step 1: Apply noise reduction to raw depth image
+        # Median filter to remove salt-and-pepper noise
+        filtered_depth = cv2.medianBlur((depth_image * 1000).astype(np.uint16), 5).astype(np.float32) / 1000.0
+        
+        # Gaussian blur for additional smoothing
+        smooth_depth = cv2.GaussianBlur(filtered_depth, (3, 3), 0)
+        debug_stages['smooth_depth'] = smooth_depth.copy()
+        
+        # Step 2: Clip depth values to valid range
+        clipped_depth = np.clip(smooth_depth, self.depth_min_valid, self.depth_max_valid)
         debug_stages['clipped_depth'] = clipped_depth.copy()
         
-        # Step 2: Extract ROI
+        # Step 3: Extract ROI
         H, W = clipped_depth.shape
         y_top = int(H * self.roi_top_fraction)
         y_bot = int(H * self.roi_bottom_fraction)
         roi_depth = clipped_depth[y_top:y_bot, :]
         debug_stages['roi_depth'] = roi_depth.copy()
         
-        # Step 3: Calculate statistics per column with improved obstacle detection
+        # Step 4: Calculate robust statistics per column
         median_depth = np.zeros(W)
-        min_depth = np.zeros(W)
-        obstacle_ratio = np.zeros(W)
-        
-        # Use configurable obstacle detection thresholds
-        close_obstacle_threshold = self.close_obstacle_threshold
-        obstacle_pixel_ratio = self.obstacle_pixel_ratio
+        valid_pixel_count = np.zeros(W)
         
         for x in range(W):
             col = roi_depth[:, x]
@@ -312,78 +309,182 @@ class VisionHybridFollower:
             
             if len(valid) > 0:
                 median_depth[x] = np.median(valid)
-                min_depth[x] = np.min(valid)
-                
-                # Count pixels that are close obstacles
-                close_pixels = np.sum(valid < close_obstacle_threshold)
-                obstacle_ratio[x] = close_pixels / len(valid)
+                valid_pixel_count[x] = len(valid)
             else:
                 median_depth[x] = 0
-                min_depth[x] = 0
-                obstacle_ratio[x] = 1.0  # No valid data = blocked
+                valid_pixel_count[x] = 0
         
         debug_stages['median_depth'] = median_depth.copy()
-        debug_stages['min_depth'] = min_depth.copy()
-        debug_stages['obstacle_ratio'] = obstacle_ratio.copy()
+        debug_stages['valid_pixel_count'] = valid_pixel_count.copy()
         
-        # Step 4: Create improved navigability mask
-        # A column is navigable if:
-        # Based on data analysis: ROI median ~1.05m, most columns 0.8-2.0m range
-        # Close obstacles are minority (~99/640 columns < 0.8m)
+        # Step 5: Apply spatial smoothing to reduce streaks
+        # Use lighter smoothing to preserve more navigable areas
+        from scipy.ndimage import gaussian_filter1d
+        try:
+            # Reduce smoothing strength (sigma=1.5 instead of 2.0)
+            smoothed_median = gaussian_filter1d(median_depth, sigma=1.5)
+        except ImportError:
+            # Fallback to lighter moving average
+            kernel_size = 3  # Smaller kernel size
+            kernel = np.ones(kernel_size) / kernel_size
+            smoothed_median = np.convolve(median_depth, kernel, mode='same')
+        
+        debug_stages['smoothed_median'] = smoothed_median.copy()
+        
+        # Step 6: Create improved navigability mask
+        # Looser requirements while keeping noise reduction benefits
+        min_valid_pixels = roi_depth.shape[0] * 0.2  # Reduce to 20% of ROI height must be valid
+        lookahead_threshold = self.lookahead_distance * 0.7  # Use 70% of lookahead distance (0.7m instead of 1.0m)
+        
         navigable_raw = (
-            (obstacle_ratio < 0.5) &  # Allow some close pixels (relaxed threshold)
-            (min_depth > 0.3) &  # Min depth not too close (very permissive)
-            (median_depth > 0.7)  # Median depth reasonable (data shows ~1.05m median)
+            (smoothed_median >= lookahead_threshold) &
+            (valid_pixel_count >= min_valid_pixels)
         )
-        
-        # Step 5: Apply smoothing to reduce noise/streaks
-        # Use morphological operations to clean up the mask
-        navigable_smooth = self._smooth_navigability_mask(navigable_raw, self.depth_smoothing_kernel)
         debug_stages['navigable_raw'] = navigable_raw.copy()
-        debug_stages['navigable_mask'] = navigable_smooth.copy()
         
-        # Step 6: Find gaps
-        gaps = self._find_depth_gaps(navigable_smooth)
+        # Step 7: Apply morphological operations to clean up streaks
+        navigable_clean = self._clean_navigability_streaks(navigable_raw)
+        debug_stages['navigable_mask'] = navigable_clean.copy()
+        
+        # Step 8: Find gaps with depth information
+        gaps = self._find_depth_gaps(navigable_clean, smoothed_median)
         debug_stages['gaps_found'] = len(gaps)
         
-        # Step 7: Create visualization
+        # Step 9: Create visualization
         debug_stages['gap_visualization'] = self._create_depth_gap_visualization(
-            depth_image, median_depth, navigable_smooth, gaps)
+            depth_image, smoothed_median, navigable_clean, gaps)
         
         return {
             'gaps': gaps,
             'debug_stages': debug_stages
         }
     
-    def _smooth_navigability_mask(self, navigable_mask, kernel_size=5):
+    def _find_depth_gaps(self, navigable_mask, median_depths=None):
         """
-        Smooth the navigability mask to reduce noise and eliminate streaks
+        Find gaps in the navigable mask with depth information
         
         Args:
-            navigable_mask (np.ndarray): Raw boolean navigability mask
-            kernel_size (int): Size of smoothing kernel
+            navigable_mask (np.ndarray): Boolean array indicating navigable columns
+            median_depths (np.ndarray): Median depth per column
             
         Returns:
-            np.ndarray: Smoothed boolean navigability mask
+            list: List of gap dictionaries
+        """
+        gaps = []
+        
+        # Find connected components of True values
+        diff = np.diff(np.concatenate(([False], navigable_mask, [False])))
+        starts = np.where(diff)[0]
+        
+        for i in range(0, len(starts), 2):
+            if i + 1 < len(starts):
+                start = starts[i]
+                end = starts[i + 1] - 1
+                width = end - start + 1
+                
+                # Filter by minimum width
+                if width >= self.min_depth_gap_width_px:
+                    center = (start + end) / 2
+                    
+                    # Calculate average depth of the gap
+                    avg_depth = 0.0
+                    if median_depths is not None:
+                        gap_depths = median_depths[start:end+1]
+                        avg_depth = np.mean(gap_depths) if len(gap_depths) > 0 else 0.0
+                    
+                    gaps.append({
+                        'start': start,
+                        'end': end, 
+                        'center': center,
+                        'width': width,
+                        'avg_depth': avg_depth
+                    })
+        
+        # Sort by width (largest first) - we'll change selection logic later
+        gaps.sort(key=lambda g: g['width'], reverse=True)
+        return gaps
+    
+    def _clean_navigability_streaks(self, navigable_raw):
+        """
+        Clean up streaky navigability mask using morphological operations
+        
+        Args:
+            navigable_raw (np.ndarray): Raw boolean navigability mask
+            
+        Returns:
+            np.ndarray: Cleaned navigability mask
         """
         # Convert to uint8 for morphological operations
-        mask_uint8 = navigable_mask.astype(np.uint8) * 255
+        mask_uint8 = navigable_raw.astype(np.uint8) * 255
         
-        # Create kernel for morphological operations
-        kernel = np.ones((1, kernel_size), np.uint8)  # Horizontal kernel to smooth columns
+        # Reshape 1D array to 2D for OpenCV morphological operations
+        mask_2d = mask_uint8.reshape(1, -1)
         
-        # Apply morphological closing to fill small gaps
-        closed = cv2.morphologyEx(mask_uint8, cv2.MORPH_CLOSE, kernel)
+        # Create horizontal kernel to smooth column-wise streaks  
+        # Reduce kernel sizes to be less aggressive
+        kernel_horizontal = np.ones((1, 5), np.uint8)  # Smaller horizontal smoothing
         
-        # Apply morphological opening to remove small noise
-        opened = cv2.morphologyEx(closed, cv2.MORPH_OPEN, kernel)
+        # Apply morphological closing to fill small gaps between navigable columns
+        closed = cv2.morphologyEx(mask_2d, cv2.MORPH_CLOSE, kernel_horizontal)
         
-        # Convert back to boolean
-        return opened > 127
+        # Use smaller opening kernel to preserve more navigable areas
+        kernel_clean = np.ones((1, 2), np.uint8)  # Smaller cleaning kernel
+        opened = cv2.morphologyEx(closed, cv2.MORPH_OPEN, kernel_clean)
+        
+        # Convert back to 1D boolean array
+        return (opened.flatten() > 127)
     
-    def _find_depth_gaps(self, navigable):
+    def _create_depth_gap_visualization(self, depth_image, median_depth, navigable_mask, gaps):
         """
-        Find navigable gaps in depth navigability mask
+        Create visualization showing depth gaps
+        
+        Args:
+            depth_image (np.ndarray): Original depth image
+            median_depth (np.ndarray): Per-column median depths
+            navigable_mask (np.ndarray): Boolean navigability mask
+            gaps (list): Detected gaps
+            
+        Returns:
+            np.ndarray: RGB visualization image
+        """
+        H, W = depth_image.shape
+        
+        # Convert depth to RGB colormap
+        depth_norm = np.clip(depth_image / self.depth_max_valid, 0, 1)
+        viz = cv2.applyColorMap((depth_norm * 255).astype(np.uint8), cv2.COLORMAP_JET)
+        
+        # Draw ROI boundaries
+        roi_top = int(H * self.roi_top_fraction)
+        roi_bottom = int(H * self.roi_bottom_fraction)
+        cv2.line(viz, (0, roi_top), (W-1, roi_top), (255, 255, 255), 1)
+        cv2.line(viz, (0, roi_bottom), (W-1, roi_bottom), (255, 255, 255), 1)
+        
+        # Draw navigability bars at bottom
+        bar_height = 20
+        for x in range(W):
+            color = (0, 255, 0) if navigable_mask[x] else (0, 0, 255)
+            cv2.rectangle(viz, (x, H-bar_height), (x+1, H), color, -1)
+        
+        # Draw gap boundaries and labels
+        for i, gap in enumerate(gaps):
+            start = int(gap['start'])
+            end = int(gap['end'])
+            center = int(gap['center'])
+            
+            # Vertical lines at gap boundaries
+            cv2.line(viz, (start, 0), (start, H), (0, 255, 255), 2)
+            cv2.line(viz, (end, 0), (end, H), (0, 255, 255), 2)
+            
+            # Gap label
+            cv2.putText(viz, f"G{i}", (center-10, 25), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 255), 2)
+        
+        return viz
+    
+
+        
+    def _legacy_find_depth_gaps(self, navigable):
+        """
+        Original complex gap detection (kept for reference)
         
         Args:
             navigable (np.ndarray): Boolean array indicating navigable columns
@@ -430,9 +531,15 @@ class VisionHybridFollower:
         if not gaps:
             return None
         
-        # Select best gap (widest)
-        best_gap = max(gaps, key=lambda gap: gap[3])
-        gap_center_x = best_gap[2]
+        # Select best gap - prefer deepest gap among those that meet minimum width
+        if isinstance(gaps[0], dict) and 'avg_depth' in gaps[0]:
+            # For depth gaps, prefer the deepest one
+            best_gap = max(gaps, key=lambda gap: gap['avg_depth'])
+        else:
+            # For RGB gaps, use widest
+            best_gap = max(gaps, key=lambda gap: gap['width'] if isinstance(gap, dict) else gap[3])
+        
+        gap_center_x = best_gap['center'] if isinstance(best_gap, dict) else best_gap[2]
         
         # Calculate steering angle based on gap center position
         if reference_image is not None:
@@ -563,7 +670,10 @@ class VisionHybridFollower:
         
         # Draw gaps
         for i, gap in enumerate(gaps):
-            start_x, end_x, center_x, gap_width = gap
+            start_x = int(gap['start'])
+            end_x = int(gap['end'])
+            center_x = int(gap['center'])
+            gap_width = gap['width']
             
             # Gap boundaries
             cv2.line(vis_image, (start_x, top), (start_x, bottom), (255, 255, 0), 3)

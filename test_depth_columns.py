@@ -68,9 +68,10 @@ def save_column_navigability(depth_image, result, frame_name, output_dir="images
     height, width = depth_image.shape
     
     # Get ROI coordinates (same as algorithm)
-    roi_top_fraction = 0.5  
+    roi_top_fraction = 0.3  # Match algorithm 
+    roi_bottom_fraction = 0.8  # Match algorithm
     top = int(height * roi_top_fraction)
-    bottom = height
+    bottom = int(height * roi_bottom_fraction)
     
     # 1. Save original depth image for reference
     # Normalize depth for visualization (0-5m -> 0-255)
@@ -131,7 +132,8 @@ def create_concise_log_entry(depth_image, result, frame_name, depth_file_path, f
     """
     debug = result['debug']
     height, width = depth_image.shape
-    roi_top = int(height * 0.5)
+    roi_top = int(height * 0.3)
+    roi_bottom = int(height * 0.8)
     
     # Extract key metrics
     timestamp = Path(depth_file_path).name.replace("depth_", "").replace(".raw", "")
@@ -150,7 +152,7 @@ def create_concise_log_entry(depth_image, result, frame_name, depth_file_path, f
         stages = debug['depth_processing_stages']
         
         # ROI depth statistics (concise)
-        roi_depth = depth_image[roi_top:, :]
+        roi_depth = depth_image[roi_top:roi_bottom, :]
         valid_roi = roi_depth[(roi_depth > 0.1) & (roi_depth < 5.0)]
         
         if len(valid_roi) > 0:
@@ -207,7 +209,16 @@ def create_concise_log_entry(depth_image, result, frame_name, depth_file_path, f
         gap_summary = []
         
         for i, gap in enumerate(gaps):
-            if len(gap) >= 4:  # (start, end, center, width)
+            # Handle both old tuple format and new dict format
+            if isinstance(gap, dict):
+                gap_summary.append({
+                    "start": int(gap['start']),
+                    "end": int(gap['end']),
+                    "center": int(gap['center']),
+                    "width": int(gap['width']),
+                    "width_percent": round(100 * gap['width'] / width, 1)
+                })
+            elif len(gap) >= 4:  # Old tuple format (start, end, center, width)
                 gap_summary.append({
                     "start": int(gap[0]),
                     "end": int(gap[1]),
