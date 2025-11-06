@@ -1,0 +1,14 @@
+# F1Tenth Simulator Requirements
+# Core scientific computing
+numpy>=1.26.0
+opencv-python>=4.8.0
+Pillow>=10.0.0
+
+# GUI and visualization  
+matplotlib>=3.6.0
+
+# Data processing
+scipy>=1.9.0
+
+# Development and testing
+pytest>=7.0.0

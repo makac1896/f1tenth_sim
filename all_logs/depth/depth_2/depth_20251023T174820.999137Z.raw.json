@@ -1,0 +1,10 @@
+{
+  "saved_at": "2025-10-23T17:48:21.066384Z",
+  "image_file": "depth_20251023T174820.999137Z.raw",
+  "image_timestamp": "20251023T174820.999137Z",
+  "width": 640,
+  "height": 480,
+  "encoding": "16UC1",
+  "is_bigendian": 0,
+  "step": 1280
+}
